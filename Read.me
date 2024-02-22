@@ -1,0 +1,9 @@
+Pour stocker les murs:
+
+Rappel : La structure d'un mur est tail:pos2 et head:pos2
+    On va différencier 2 types de mur vertical ou horizontal : en pratique on met arbitrèrement les murs horizontaux en premiers puis les murs verticaux
+    On va vouloir une fonction de concaténation de deux murs adjacents
+
+on va simplement utiliser la structure tableau dynamique pour stocker ces murs
+Pour le moment on va stocker tous les murs dans le meme tableau dynamique en utilisant le fait qu on puisse rapidement trouver les couprs possibles pour le joeur
+et aussi du fait qu une fois les concaténations faites, il n y aura pas beacuoup de murs différents dans cette liste ( simplement des head et tail de plus en plus éloignés)
