@@ -4,7 +4,23 @@
 /*importer Vec2*/
 #include "vec2.h"
 
-typedef void * ElementTD; //pointeur générique vers un type
+bool operator ==(vec2<int> v1, vec2<int> v2) { 
+    return (v1.x == v2.x) && (v1.y == v2.y);
+}
+
+enum Direction {HORIZONTAL, VERTICAL};
+
+struct Mur
+{
+    /* data */
+    vec2<int> Tail;
+    vec2<int> Head;
+    Direction dir;
+    
+};
+
+typedef Mur * ElementTD; //pointeur générique vers un mur
+
 
 class TableauDynamiqueMur {
 public:

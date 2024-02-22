@@ -5,22 +5,6 @@
 #include <stdlib.h>
 using namespace std;
 
-bool operator ==(vec2<int> v1, vec2<int> v2) { 
-    return (v1.x == v2.x) && (v1.y == v2.y);
-}
-
-enum Direction {HORIZONTAL, VERTICAL};
-
-struct Mur
-{
-    /* data */
-    vec2<int> Tail;
-    vec2<int> Head;
-    Direction dir;
-    
-};
-
-typedef Mur * ElementTD; //pointeur générique vers un mur
 
 Mur* operator + (Mur* m1, Mur m2) { //mur de gauche : pointeur vers un mur du tableau, mur de droite : mur à ajouter
     Mur * m = new Mur;

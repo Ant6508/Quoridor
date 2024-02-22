@@ -1,5 +1,9 @@
 
-typedef Mur * ElementTD; //pointeur générique vers un type
+#include <iostream>
+#include <stdlib.h>
+#include "vec2.h"
+using namespace std;
+
 //operateur + pour vec2
 vec2<int> operator+(const vec2<int> &v1, const vec2<int> &v2)
 {
@@ -18,6 +22,12 @@ struct Case
     TypeOccupant Occupant;
 
 };
+
+struct Pion{
+Case* caseCourrante;
+TypeOccupant ID;
+};
+
 
 class MatriceCases
 {
@@ -44,14 +54,3 @@ public:
 };
 
 
-
-
-class ReseauMurs
-{
-    public:
-        /* données membres */
-        TableauDynamique Murs; //Tableau dynamique de murs
-
-        /* fonctions membres */
-        ReseauMurs(); // Constructeur par défaut
-};

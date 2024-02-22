@@ -1,5 +1,4 @@
-#include "Board.h"
-#include "TableauDynamique.h"
+#include "MatriceCases.h"
 
 
 #include <iostream>
