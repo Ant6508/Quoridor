@@ -34,8 +34,9 @@ class Partie
         ~Partie();
 
         void initPions();
-        
-        bool coupValide(coup c, Pion joueur);
+
+        bool murValide(Mur m) const;
+        bool coupValide(coup c, Pion joueur) const;
         void jouerCoup(coup c);
         void annulerCoup(coup c);
 

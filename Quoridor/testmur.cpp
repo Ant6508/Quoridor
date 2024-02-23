@@ -15,17 +15,28 @@ int main(){
 
     TableauDynamiqueMur tdm;
     Mur m1;
-    m1.Tail = vec2<int>(1,1);
-    m1.Head = vec2<int>(1,2);
-    m1.dir = VERTICAL;
-    tdm.ajouterElement(m1);
-
     Mur m2;
-    m2.Tail = vec2<int>(1,2);
-    m2.Head = vec2<int>(2,2);
-    m2.dir = HORIZONTAL;
 
-    tdm.concatenerMur(m2);
+    m2.Tail = vec2<int>(1,1);
+    m2.Head = vec2<int>(1,3);
+    
+    m1.Tail = vec2<int>(0,2);
+    m1.Head = vec2<int>(2,2);
+
+    m2.dir = VERTICAL;
+    m1.dir = HORIZONTAL;    
+
+    tdm.ajouterElement(m1);
+    tdm.ajouterElement(m2);
+
+    if(m1/m2)
+    {
+        printf("Les murs se croisent\n");
+    }
+    else
+    {
+        printf("Les murs ne se croisent pas\n");
+    }
    
 
     tdm.afficher(); 

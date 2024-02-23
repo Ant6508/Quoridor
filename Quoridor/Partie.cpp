@@ -39,8 +39,12 @@ void Partie::initPions(){
 
 };
 
+bool Partie::murValide(Mur m) const {
+    return true;
+};
 
-bool Partie::coupValide(coup c, Pion joueur){
+
+bool Partie::coupValide(coup c, Pion joueur) const{
     switch (c.type)
     {
     case DEPLACEMENT:
