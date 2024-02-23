@@ -97,6 +97,10 @@ Case** MatriceCases::GetVoisins(const Case & c) const { //
 
 }
 
+void MatriceCases::printCase(const Case &c) const
+{
+    printf("Case : (%d,%d) , Occupant : %d\n", c.position.x, c.position.y, c.Occupant);
+}
 
 void MatriceCases::Print() const
 {
@@ -104,10 +108,10 @@ void MatriceCases::Print() const
     {
         for (int j = 0; j < Taille; j++)
         {
-            cout << Cases[i][j].Occupant << " ";
+            printCase(Cases[i][j]);
         }
-        cout << endl;
     }
+
 }
 
 

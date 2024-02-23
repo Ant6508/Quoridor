@@ -46,6 +46,7 @@ public:
     Case *GetCase(vec2<int> pos) const; // Renvoie la case* à la position pos
     Case** GetVoisins(const Case &) const; // Renvoie les voisins de la case c
 
+    void printCase(const Case &c) const; // Affiche la case c
     void Print() const; // Affiche la matrice de cases
 
 };

@@ -54,7 +54,6 @@ public:
                     soit le mur a été concaténé avec un autre mur du TDM*/
     /*Resultat : false si ajout classique true si concatenation*/
 
-
     Mur valeurIemeElement (unsigned int indice) const;
     /* Precondition : 0 <= indice < taille_utilisee */
     /* Resultat : retourne l'Mur à l'indice en paramètre */
