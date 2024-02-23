@@ -23,10 +23,6 @@ struct Case
 
 };
 
-struct Pion{
-Case* caseCourrante;
-TypeOccupant ID;
-};
 
 
 class MatriceCases
@@ -42,11 +38,12 @@ public:
 
     /* fonctions membres */
     MatriceCases(int taille); // Constructeur par défaut
-    MatriceCases(); // Constructeur par défaut
+    MatriceCases(); // Constructeur par défaut avec taille=8
     ~MatriceCases();
 
+
     void SetCaseOccupant(vec2<int> pos, TypeOccupant occupant); // Modifie l'occupant de la case à la position pos
-    Case *GetCase(vec2<int> pos) const; // Renvoie la case à la position pos
+    Case *GetCase(vec2<int> pos) const; // Renvoie la case* à la position pos
     Case** GetVoisins(const Case &) const; // Renvoie les voisins de la case c
 
     void Print() const; // Affiche la matrice de cases

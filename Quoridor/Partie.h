@@ -3,8 +3,12 @@
 #include "MatriceCases.h"
 
 struct Board{
-    TableauDynamiqueMur MurH;
-    MatriceCases Cases;
+    TableauDynamiqueMur* MurH;
+    MatriceCases* Cases;
+};
+struct Pion{
+    Case* caseCourrante;
+    TypeOccupant ID;
 };
 
 enum typeCoup {DEPLACEMENT, MUR, RIEN};
@@ -20,21 +24,25 @@ class Partie
 {
     public:
         Board board;
-        Pion J1;
-        Pion J2;
-        int coupCourant;
+        Pion joueur1;
+        Pion joueur2;
+        int coupCourant;    
+        int taille;
 
 
         Partie(int taille);
         ~Partie();
 
-        bool coupValide(coup c);
+        void initPions();
+        
+        bool coupValide(coup c, Pion joueur);
         void jouerCoup(coup c);
         void annulerCoup(coup c);
 
         bool partieTerminee();
         bool gagnant(TypeOccupant joueur);
 
+        
 
 
 };

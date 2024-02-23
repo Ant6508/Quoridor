@@ -23,7 +23,7 @@ MatriceCases::MatriceCases(int taille)
     {
         for (int j = 0; j < Taille; j++)
         {
-            //creer le vec2 de coordonnées i,j 
+            //creer le vec2 de coordonnées i,j sur la pile (renouvelé à chaque tour de boucle)
             vec2<int> pos(i, j);
             Cases[i][j].position = pos;
 
