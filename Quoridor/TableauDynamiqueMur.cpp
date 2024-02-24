@@ -8,20 +8,20 @@
 using namespace std;
 
 
-Mur operator + (const Mur m1, const Mur m2) {
+Mur Mur::operator +(const Mur m2)  {
     Mur m;
-    if(m1.dir == m2.dir && m1.Head == m2.Tail )
+    if(dir == m2.dir && Head == m2.Tail )
     {
         m.Head = m2.Head;
-        m.Tail = m1.Tail;
-        m.dir = m1.dir;
+        m.Tail = Tail;
+        m.dir = dir;
         return m;
     }
-    else if(m1.dir == m2.dir && m1.Tail == m2.Head )
+    else if(dir == m2.dir && Tail == m2.Head )
     {
         m.Head = m2.Head;
-        m.Tail = m1.Tail;
-        m.dir = m1.dir;
+        m.Tail = Tail;
+        m.dir = dir;
         return m;
     }
     else
@@ -33,35 +33,28 @@ Mur operator + (const Mur m1, const Mur m2) {
 };
 
 
-bool operator >(const vec2<int> v, int i) {
-    return (v.x > i) && (v.y > i);
-};
-    
-bool operator >=(const vec2<int> v, int i) {
-    return (v.x >= i) && (v.y >= i);
-};
 
+bool Mur::operator /(const Mur m2) const {
 
-bool operator /(const Mur m1, const Mur m2) {
-
-    if(m1.dir != m2.dir) /*cas ou les murs ne sont pas de meme direction*/
+    if(dir != m2.dir) /*cas ou les murs ne sont pas de meme direction*/
     {
-      printf("dir opp");
-      if (m1.dir == VERTICAL) return m2/m1; //pour s assurer que m1 est horizontal et m2 vertical
-
-      if((m1.Tail.x < m2.Tail.x && m2.Tail.x < m1.Head.x) &&( m2.Tail.y < m1.Tail.y && m1.Tail.y < m2.Head.y)) /*les parentheses sont inutiles mais cest pour se souvenir*/
+      if (dir == VERTICAL) return m2/ *this; /*pour sassurer que m2 toujours vertical*/
+      
+      if((Tail.x < m2.Tail.x && m2.Tail.x < Head.x) &&( m2.Tail.y < Tail.y && Tail.y < m2.Head.y)) /*les parentheses sont inutiles mais cest pour se souvenir*/
         {
             return true;
         }
     }
-    else if(m1.dir == m2.dir) /*cas des murs qui ont la meme direction*/
+    else if(dir == m2.dir) /*cas des murs qui ont la meme direction*/
     {
-        if (m1.dir == HORIZONTAL) return (m2.Tail.x < m1.Tail.x && m1.Tail.x < m2.Head.x) || (m2.Tail.x < m1.Head.x && m1.Head.x < m2.Head.x);
+        if (dir == HORIZONTAL) return (m2.Tail.x < Tail.x && Tail.x < m2.Head.x) || (m2.Tail.x < Head.x && Head.x < m2.Head.x);
 
-        if (m1.dir == VERTICAL) return (m2.Tail.y < m1.Tail.y && m1.Tail.y < m2.Head.y) || (m2.Tail.y < m1.Head.y && m1.Head.y < m2.Head.y);
+        if (dir == VERTICAL) return (m2.Tail.y < Tail.y && Tail.y < m2.Head.y) || (m2.Tail.y < Head.y && Head.y < m2.Head.y);
     }
     return false;
 }
+
+
 TableauDynamiqueMur::TableauDynamiqueMur () {
 
     ad = new Mur [1]; //pointeur générique vers un mur

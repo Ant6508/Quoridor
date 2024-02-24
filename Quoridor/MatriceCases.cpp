@@ -55,43 +55,37 @@ void MatriceCases::SetCaseOccupant(vec2<int> pos, TypeOccupant occupant)
 }
 
 
-Case *MatriceCases::GetCase(vec2<int> pos) const
+Case MatriceCases::getCase(vec2<int> pos) const
 {
-    return &Cases[pos.x][pos.y];
+    return Cases[pos.x][pos.y];
 }
 
 
-Case** MatriceCases::GetVoisins(const Case & c) const { // 
+Case* MatriceCases::GetVoisins(const Case &c) const { // 
 
     //Renvoie les voisins de la case c
     //On stock les voisins depuis la droite puis sens trigo
     //NULL si au bord
 
-    Case **voisins = new Case *[4];
+    Case *voisins = new Case [4];
+    Case CaseNonValide;
+    CaseNonValide.valide = false;
 
     //Voisin de droite
-    if (c.position.x < Taille - 1)
-    { voisins[0] = GetCase(c.position + vec2<int>(1, 0));}
-    else
-    {voisins[0] = NULL;}     
-
-    //Voisin du bas
-    if (c.position.y > 0)
-    { voisins[1] = GetCase(c.position + vec2<int>(0, -1));}
-    else
-    {voisins[1] = NULL;}
-
-    //Voisin de gauche
-    if (c.position.x > 0)
-    { voisins[2] = GetCase(c.position + vec2<int>(-1, 0));}
-    else
-    {voisins[2] = NULL;}
+    if (c.position.x < Taille - 1) voisins[0] = getCase(vec2<int>(1+ c.position.x, c.position.y));
+    else (voisins[0] = CaseNonValide);
 
     //Voisin du haut
-    if (c.position.y < Taille - 1)
-    { voisins[3] = GetCase(c.position + vec2<int>(0, 1));}
-    else
-    {voisins[3] = NULL;}
+    if (c.position.y > 0) voisins[1] = getCase(vec2<int>(c.position.x, -1+ c.position.y));
+    else (voisins[1] =CaseNonValide);
+
+    //Voisin de gauche
+    if (c.position.x > 0) voisins[2] = getCase(vec2<int>(-1+ c.position.x, c.position.y));
+    else (voisins[2] = CaseNonValide);
+
+    //Voisin du bas
+    if (c.position.y < Taille - 1) voisins[3] = getCase(vec2<int>(c.position.x, 1+ c.position.y));
+    else (voisins[3] = CaseNonValide);
 
     return voisins;
 
@@ -99,6 +93,11 @@ Case** MatriceCases::GetVoisins(const Case & c) const { //
 
 void MatriceCases::printCase(const Case &c) const
 {
+    if(!c.valide)
+    {
+        printf("Case : NULL\n");
+        return;
+    }
     printf("Case : (%d,%d) , Occupant : %d\n", c.position.x, c.position.y, c.Occupant);
 }
 
@@ -108,7 +107,7 @@ void MatriceCases::Print() const
     {
         for (int j = 0; j < Taille; j++)
         {
-            printCase(Cases[i][j]);
+            printCase(getCase(vec2<int>(i, j)));
         }
     }
 

@@ -4,11 +4,6 @@
 #include "vec2.h"
 using namespace std;
 
-//operateur + pour vec2
-vec2<int> operator+(const vec2<int> &v1, const vec2<int> &v2)
-{
-    return vec2<int>(v1.x + v2.x, v1.y + v2.y);
-}
 
 enum TypeOccupant
 {
@@ -18,8 +13,9 @@ enum TypeOccupant
 struct Case
 {
     /* data */
+    bool valide = true;
     vec2<int> position; 
-    TypeOccupant Occupant;
+    TypeOccupant Occupant ;
 
 };
 
@@ -43,8 +39,8 @@ public:
 
 
     void SetCaseOccupant(vec2<int> pos, TypeOccupant occupant); // Modifie l'occupant de la case à la position pos
-    Case *GetCase(vec2<int> pos) const; // Renvoie la case* à la position pos
-    Case** GetVoisins(const Case &) const; // Renvoie les voisins de la case c
+    Case getCase(vec2<int> pos) const; // Renvoie la case à la position pos
+    Case* GetVoisins(const Case &c) const; // Renvoie les voisins de la case c
 
     void printCase(const Case &c) const; // Affiche la case c
     void Print() const; // Affiche la matrice de cases

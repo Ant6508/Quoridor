@@ -1,6 +1,4 @@
 
-#include "TableauDynamiqueMur.h"
-#include "MatriceCases.h"
 
 struct Board{
     TableauDynamiqueMur* MurH;
@@ -36,14 +34,12 @@ class Partie
         void initPions();
 
         bool murValide(Mur m) const;
-        bool coupValide(coup c, Pion joueur) const;
+        bool coupValide(coup c, const Pion& joueur) const;
         void jouerCoup(coup c);
         void annulerCoup(coup c);
 
         bool partieTerminee();
         bool gagnant(TypeOccupant joueur);
-
-        
 
 
 };

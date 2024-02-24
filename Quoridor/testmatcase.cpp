@@ -9,12 +9,18 @@ using namespace std;
 int main(){
 
     MatriceCases mc(9);
-
-
-    vec2<int> pos(1,1);
+    
+    vec2<int> pos(0,1);
     mc.SetCaseOccupant(pos,TypeOccupant::J1);
-    Case *c = mc.GetCase(pos);
-    mc.printCase(*c);
-    mc.Print();
+    Case c = mc.getCase(pos);
+    mc.printCase(c);
+
+    Case *listevoisins;
+    listevoisins = mc.GetVoisins(c);
+
+    for (int i = 0; i < 4; i++)
+    {
+        mc.printCase(listevoisins[i]);
+    }
     return 0;
 }

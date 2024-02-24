@@ -4,9 +4,6 @@
 /*importer Vec2*/
 #include "vec2.h"
 
-bool operator ==(vec2<int> v1, vec2<int> v2) { 
-    return (v1.x == v2.x) && (v1.y == v2.y);
-}
 
 enum Direction {HORIZONTAL, VERTICAL, NONE};
 
@@ -16,7 +13,9 @@ struct Mur
     vec2<int> Tail;
     vec2<int> Head;
     Direction dir;
-    
+
+    Mur operator+(const Mur m2) ;
+    bool operator/(const Mur m2) const ;
 };
 
 
@@ -27,6 +26,8 @@ public:
     /* =============== */
 
     Mur * ad;
+    unsigned int capacite;
+    unsigned int taille_utilisee;
 
     /* fonctions membres */
     /* ================= */
@@ -78,9 +79,7 @@ public:
 
 
 private:
-    /* données membres */
-    unsigned int capacite;
-    unsigned int taille_utilisee;
+
 
     /* fonctions membres */
     void modifierValeurIemeElement (Mur e, unsigned int indice);

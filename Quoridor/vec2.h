@@ -93,6 +93,50 @@ public:
 		y /= s;
 		return *this;
 	}
+
+	// Operateurs de comparaison entre deux vec2
+	bool operator ==(const vec2<int> v) {
+		return (v.x == x) && (v.y == y);
+	};
+	
+	bool operator >(const vec2<int> v) {
+		return (v.x > x) && (v.y > y);
+	};
+    
+	bool operator >=(const vec2<int> v) {
+		return (v.x >= x) && (v.y >= y);
+	};
+
+	bool operator <(const vec2<int> v) {
+		return (v.x < x) && (v.y < y);
+	};
+
+	bool operator <=(const vec2<int> v) {
+		return (v.x <= x) && (v.y <= y);
+	};
+
+	// Operateurs de comparaison entre un vec2 et un entier
+	bool operator ==(const int v) {
+		return (v == x) && (v == y);
+	};
+
+	bool operator >(const int v) {
+		return (v > x) && (v > y);
+	};
+
+	bool operator >=(const int v) {
+		return (v >= x) && (v >= y);
+	};
+
+	bool operator <(const int v) {
+		return (v < x) && (v < y);
+	};
+
+	bool operator <=(const int v) {
+		return (v <= x) && (v <= y);
+	};
+	
+
 	
 	void set(T x, T y) {
 		this->x = x;

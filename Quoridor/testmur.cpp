@@ -14,6 +14,7 @@ using namespace std;
 int main(){
 
     TableauDynamiqueMur tdm;
+    
     Mur m1;
     Mur m2;
 
@@ -23,9 +24,11 @@ int main(){
     m1.Tail = vec2<int>(0,2);
     m1.Head = vec2<int>(2,2);
 
+    printf(m1.Tail>= 0 ? "true\n" : "false\n");
     m2.dir = VERTICAL;
     m1.dir = HORIZONTAL;    
 
+    
     tdm.ajouterElement(m1);
     tdm.ajouterElement(m2);
 
