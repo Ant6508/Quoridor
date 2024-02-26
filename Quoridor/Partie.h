@@ -5,7 +5,7 @@ struct Board{
     MatriceCases* Cases;
 };
 struct Pion{
-    Case* caseCourrante;
+    Case caseCourrante; //pointe vers la case du tableau de cases
     TypeOccupant ID;
 };
 
@@ -34,10 +34,10 @@ class Partie
         void initPions();
 
         bool murValide(Mur m) const;
-        bool coupValide(coup c, const Pion& joueur) const;
+        //bool coupValide(coup c, const Pion& joueur) const;
         void jouerCoup(coup c);
         void annulerCoup(coup c);
-
+        void deplacerPion(Pion& joueur, vec2<int> pos);
         bool partieTerminee();
         bool gagnant(TypeOccupant joueur);
 

@@ -91,7 +91,7 @@ Case* MatriceCases::GetVoisins(const Case &c) const { //
 
 }
 
-void MatriceCases::printCase(const Case &c) const
+void MatriceCases::afficherCase(const Case &c) const
 {
     if(!c.valide)
     {
@@ -101,13 +101,13 @@ void MatriceCases::printCase(const Case &c) const
     printf("Case : (%d,%d) , Occupant : %d\n", c.position.x, c.position.y, c.Occupant);
 }
 
-void MatriceCases::Print() const
+void MatriceCases::afficher() const
 {
     for (int i = 0; i < Taille; i++)
     {
         for (int j = 0; j < Taille; j++)
         {
-            printCase(getCase(vec2<int>(i, j)));
+            afficherCase(getCase(vec2<int>(i, j)));
         }
     }
 

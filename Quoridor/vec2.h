@@ -116,27 +116,29 @@ public:
 	};
 
 	// Operateurs de comparaison entre un vec2 et un entier
-	bool operator ==(const int v) {
-		return (v == x) && (v == y);
+	bool operator ==(const int n) {
+		return (n == x) && (n == y);
 	};
 
-	bool operator >(const int v) {
-		return (v > x) && (v > y);
+	bool operator >(const int n) {
+		return (n > x) && (n > y);
 	};
 
-	bool operator >=(const int v) {
-		return (v >= x) && (v >= y);
+	bool operator >=(const int n) {
+		return (n >= x) && (n >= y);
 	};
 
-	bool operator <(const int v) {
-		return (v < x) && (v < y);
+	bool operator <(const int n) {
+		return (n < x) && (n < y);
 	};
 
-	bool operator <=(const int v) {
-		return (v <= x) && (v <= y);
+	bool operator <=(const int n) {
+		return (n <= x) && (n <= y);
 	};
-	
 
+	int max() const {
+		return x > y ? x : y;
+	}
 	
 	void set(T x, T y) {
 		this->x = x;
