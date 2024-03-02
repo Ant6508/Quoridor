@@ -139,6 +139,10 @@ public:
 	int max() const {
 		return x > y ? x : y;
 	}
+
+	int min() const {
+		return x < y ? x : y;
+	}
 	
 	void set(T x, T y) {
 		this->x = x;
