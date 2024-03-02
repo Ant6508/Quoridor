@@ -1,6 +1,5 @@
 #include "MatriceCases.h"
 
-
 #include <iostream>
 #include <stdlib.h>
 #include "vec2.h"
@@ -49,19 +48,17 @@ MatriceCases::~MatriceCases()
 
 }
 
-void MatriceCases::SetCaseOccupant(vec2<int> pos, TypeOccupant occupant)
-{
+void MatriceCases::SetCaseOccupant(const vec2<int> pos, const TypeOccupant occupant){
     Cases[pos.x][pos.y].Occupant = occupant;
 }
 
 
-Case MatriceCases::getCase(vec2<int> pos) const
-{
+Case MatriceCases::getCase(vec2<int> pos) const{
     return Cases[pos.x][pos.y];
 }
 
 
-Case* MatriceCases::GetVoisins(const Case &c) const { // 
+Case* MatriceCases::GetVoisins(const Case &c) const {
 
     //Renvoie les voisins de la case c
     //On stock les voisins depuis la droite puis sens trigo

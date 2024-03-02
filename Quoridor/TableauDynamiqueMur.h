@@ -41,7 +41,7 @@ public:
     ~TableauDynamiqueMur (); // Destructeur
     /* Postcondition : la mémoire allouée dynamiquement est libérée. */
 	
-	void vider ();
+	void vider();
     /* Postcondition : la mémoire allouée dynamiquement est libérée.
 	                   le tableau a 1 emplacement alloué mais vide (taille utilisée nulle) */
 

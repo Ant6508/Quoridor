@@ -152,7 +152,7 @@ int main(){
     printf(valide3 ? "true\n" : "false\n");
     return 0;*/
 
-    /*test jouer coup
+    /*test jouer coup*/
     Partie p(5);
 
     string s = "D12";
@@ -171,7 +171,12 @@ int main(){
     coup c3 = p.coupofString(s3);
     p.jouerCoup(c3);
 
-    return 0;*/
+    string s4 = "D00";
+    coup c4 = p.coupofString(s4);
+    p.jouerCoup(c4);
+    
+
+    return 0;
 
 
 }

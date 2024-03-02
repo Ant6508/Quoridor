@@ -90,7 +90,7 @@ coup Partie::coupofString(string s) const{
     return c;
 };
 
-void Partie::afficherCoup(coup c) const{
+void Partie::afficherCoup(const coup& c) const{
     /*fonction qui affiche un coup*/
     if(c.type == DEPLACEMENT){
         printf("Deplacement en %d %d\n", c.newpos.x, c.newpos.y);
@@ -104,7 +104,7 @@ void Partie::afficherCoup(coup c) const{
 };
 
 
-bool Partie::murValide(Mur m) const {
+bool Partie::murValide(const Mur& m) const {
     
     /*un mur est valide ssi : il ne sort pas du board et qu il nest pas sur un autre mur et qu il ne bloque pas le chemin d un joueur*/
 
@@ -133,7 +133,7 @@ bool Partie::murValide(Mur m) const {
     return true;
 };
 
-bool Partie::rencontreMur(const Pion& joueur, Mur m, vec2<int> newpos) const{
+bool Partie::rencontreMur(const Pion& joueur, const Mur& m, const vec2<int> newpos) const{
     
     if(m.dir == VERTICAL){
         bool b1 = joueur.caseCourrante.position.x+1 == m.Tail.x == newpos.x;
@@ -159,11 +159,12 @@ bool Partie::rencontreMur(const Pion& joueur, Mur m, vec2<int> newpos) const{
 };
 
 
-bool Partie::deplacementValide(Pion& joueur, vec2<int> newpos) const{
+bool Partie::deplacementValide(const Pion& joueur, vec2<int> newpos) const{
     /*precondition : newpos est une case adjacente a la poistion du joueur*/
     /*un deplacement est valide ssi : il ne sort pas du board et qu il ne rencontre pas un mur*/
 
-    assert(abs(joueur.caseCourrante.position.x - newpos.x) + abs(joueur.caseCourrante.position.y - newpos.y) == 1); /*on verifie que newpos est bien une case adjacente a la position du joueur*/
+    if( ( abs(joueur.caseCourrante.position.x - newpos.x) + abs(joueur.caseCourrante.position.y - newpos.y) ) != 1) return false; /*on verifie que newpos est bien une case adjacente a la position du joueur (distance de manhattan = 1)*/
+
     
     Direction dirDeplacement = (newpos.x == joueur.caseCourrante.position.x) ? VERTICAL : HORIZONTAL;
 
@@ -188,7 +189,7 @@ void Partie::deplacerPion (Pion& joueur, vec2<int> newpos){
     
 };
 
-void Partie::jouerCoup(coup c){
+void Partie::jouerCoup(const coup& c){
     /*on joue un coup en fonction de son type*/
     if(c.type == DEPLACEMENT){
         bool possible = deplacementValide(joueur1, c.newpos);
@@ -213,3 +214,19 @@ void Partie::jouerCoup(coup c){
     }
 };
 
+bool Partie::gagnant(const TypeOccupant joueur) const {
+    /*on regarde si un joueur a gagné*/
+
+    if(joueur == TypeOccupant::J1){
+        if (joueur1.caseCourrante.position.x == taille-1) return true;}
+
+    else if(joueur == TypeOccupant::J2){
+        if (joueur2.caseCourrante.position.x == 0) return true; }
+
+    return false;
+};
+
+bool Partie::partieTerminee() const{
+    /*on regarde si un joueur a gagné*/
+    return gagnant(TypeOccupant::J1) || gagnant(TypeOccupant::J2);
+};

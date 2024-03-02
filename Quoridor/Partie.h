@@ -35,23 +35,28 @@ class Partie
         ~Partie();
 
         void initPions();
+
+
+        /*fonctions pour les murs*/
+        Mur* getMursbyDir(const Direction dir) const;
+        bool murValide(const Mur& m) const;
+        bool rencontreMur(const Pion& joueur, const Mur& m, const vec2<int> newpos) const;
+
+        /*fonctions pour les deplacements*/
+        bool deplacementValide(const Pion& joueur,const vec2<int> pos) const;
+        void deplacerPion(Pion& joueur, const vec2<int> pos); /*fonction type setter donc pa de const*/
+
  
-        coup coupofString(string s) const;
-        void afficherCoup(coup c) const;
-
-        Mur* getMursbyDir(Direction dir) const;
-        bool murValide(Mur m) const;
-        bool rencontreMur(const Pion& joueur, Mur m, vec2<int> newpos) const;
-
-        bool deplacementValide(Pion& joueur, vec2<int> pos) const;
-        void deplacerPion(Pion& joueur, vec2<int> pos);
+        /*fonctions pour les coups*/
+        coup coupofString(const string s) const;
+        void afficherCoup(const coup& c) const;
 
         //bool coupValide(coup c, const Pion& joueur) const;
-        void jouerCoup(coup c);
+        void jouerCoup(const coup& c);
         void annulerCoup(coup c);
         
-        bool partieTerminee();
-        bool gagnant(TypeOccupant joueur);
+        bool partieTerminee() const;
+        bool gagnant(const TypeOccupant joueur) const;
 
 
 };
