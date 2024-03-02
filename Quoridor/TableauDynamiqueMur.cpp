@@ -83,6 +83,10 @@ void TableauDynamiqueMur::vider () {
   taille_utilisee = 0;
 }
 
+bool TableauDynamiqueMur::estVide () const {
+  return taille_utilisee == 0;
+}
+
 void TableauDynamiqueMur::ajouterElement (Mur e) {
   Mur * temp;
   if (taille_utilisee == capacite) { // tableau plein, doublons la capacité
@@ -108,7 +112,6 @@ bool TableauDynamiqueMur::concatenerMur (Mur m) {
           return true; /*concaténation efféctuée*/
       }}
 
-  ajouterElement(m);
   return false; /*concaténation non efféctuée*/
 }
 

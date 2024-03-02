@@ -45,6 +45,9 @@ public:
     /* Postcondition : la mémoire allouée dynamiquement est libérée.
 	                   le tableau a 1 emplacement alloué mais vide (taille utilisée nulle) */
 
+    bool estVide () const;
+    /* Resultat : vrai si le tableau est vide, faux sinon */
+    
     void ajouterElement (Mur e);
     /* Postcondition : l'élément e est ajouté dans le premier emplacement inutilisé du tableau,
                        la taille est incrémentée de 1. Doublement de la capacité si nécessaire. */

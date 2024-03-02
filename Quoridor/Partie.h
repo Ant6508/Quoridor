@@ -21,6 +21,8 @@ struct coup{
 class Partie
 {
     public:
+
+        /*Données membres publiques*/
         Board board;
         Pion joueur1;
         Pion joueur2;
@@ -28,23 +30,26 @@ class Partie
         int taille;
 
 
+        /*Fonctions membres publiques*/
         Partie(int taille);
         ~Partie();
 
         void initPions();
-
-        Mur* getMursbyDir(Direction dir) const;
+ 
         coup coupofString(string s) const;
         void afficherCoup(coup c) const;
 
+        Mur* getMursbyDir(Direction dir) const;
         bool murValide(Mur m) const;
         bool rencontreMur(const Pion& joueur, Mur m, vec2<int> newpos) const;
-        bool deplacementValide(Pion& joueur, vec2<int> pos, Direction dir) const;
+
+        bool deplacementValide(Pion& joueur, vec2<int> pos) const;
+        void deplacerPion(Pion& joueur, vec2<int> pos);
 
         //bool coupValide(coup c, const Pion& joueur) const;
         void jouerCoup(coup c);
         void annulerCoup(coup c);
-        void deplacerPion(Pion& joueur, vec2<int> pos);
+        
         bool partieTerminee();
         bool gagnant(TypeOccupant joueur);
 

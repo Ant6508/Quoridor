@@ -82,7 +82,7 @@ coup Partie::coupofString(string s) const{
         m.Head = vec2<int>(Headx,Heady);
         m.dir = (m.Tail.x == m.Head.x) ? VERTICAL : HORIZONTAL; /*on determine la direction du mur*/
         c.mur = m;
-        
+
     }
     else{
         c.type = RIEN;
@@ -137,7 +137,7 @@ bool Partie::rencontreMur(const Pion& joueur, Mur m, vec2<int> newpos) const{
     
     if(m.dir == VERTICAL){
         bool b1 = joueur.caseCourrante.position.x+1 == m.Tail.x == newpos.x;
-        bool b2 = joueur.caseCourrante.position.x == m.Tail.x-1 == newpos.x-1;
+        bool b2 = joueur.caseCourrante.position.x == m.Tail.x == newpos.x+1;
         bool adj = b1 || b2;
 
         bool ycompri = m.Tail.y <= joueur.caseCourrante.position.y && joueur.caseCourrante.position.y <= m.Head.y;
@@ -145,12 +145,12 @@ bool Partie::rencontreMur(const Pion& joueur, Mur m, vec2<int> newpos) const{
         if(adj && ycompri) return true;
     }
     else if(m.dir == HORIZONTAL){
-        bool b1 = joueur.caseCourrante.position.y == m.Tail.y+1 == newpos.y+1;
-        bool b2 = joueur.caseCourrante.position.y == m.Tail.y-1 == newpos.y-1;
+        bool b1 = joueur.caseCourrante.position.y+1 == m.Tail.y == newpos.y;
+        bool b2 = joueur.caseCourrante.position.y == m.Tail.y == newpos.y+1;
         bool adj = b1 || b2;
 
         bool xcompri = m.Tail.x <= joueur.caseCourrante.position.x && joueur.caseCourrante.position.x <= m.Head.x;
-
+        
         if(adj && xcompri) return true;
     }
    
@@ -159,12 +159,15 @@ bool Partie::rencontreMur(const Pion& joueur, Mur m, vec2<int> newpos) const{
 };
 
 
-bool Partie::deplacementValide(Pion& joueur, vec2<int> newpos , Direction dir) const{
+bool Partie::deplacementValide(Pion& joueur, vec2<int> newpos) const{
     /*precondition : newpos est une case adjacente a la poistion du joueur*/
     /*un deplacement est valide ssi : il ne sort pas du board et qu il ne rencontre pas un mur*/
 
+    assert(abs(joueur.caseCourrante.position.x - newpos.x) + abs(joueur.caseCourrante.position.y - newpos.y) == 1); /*on verifie que newpos est bien une case adjacente a la position du joueur*/
+    
+    Direction dirDeplacement = (newpos.x == joueur.caseCourrante.position.x) ? VERTICAL : HORIZONTAL;
+
     /*1)verifier si il ne sort pas de du board*/
-    printf("newpos : %d %d\n", newpos.x, newpos.y);
     if ( newpos.max() > taille || newpos.min() < 0)
     {printf("sort du board\n");
         return false;}
@@ -172,40 +175,10 @@ bool Partie::deplacementValide(Pion& joueur, vec2<int> newpos , Direction dir) c
     /*2)verifier si il ne rencontre pas un mur : si dir == VERTICAL on regarde seulement les murs horizontaux et vice versa*/
     for(int i = 0; i < board.tabdMur->taille_utilisee; i++){
         Mur m = board.tabdMur->valeurIemeElement(i);
-        if(dir == m.dir) continue;
+        if(m.dir == dirDeplacement) continue;
         if(rencontreMur(joueur,m,newpos)) return false;
     }
-
-
     return true;
-};
-
-void Partie::jouerCoup(coup c){
-    /*on joue un coup en fonction de son type*/
-    if(c.type == DEPLACEMENT){
-        Direction dirdeplacement;
-        if(c.newpos.x == joueur1.caseCourrante.position.x) dirdeplacement = VERTICAL;
-        else if(c.newpos.y == joueur1.caseCourrante.position.y) dirdeplacement = HORIZONTAL; 
-
-        bool possible = deplacementValide(joueur1, c.newpos, dirdeplacement);
-        if(possible){
-            deplacerPion(joueur1, c.newpos);
-        }
-        else{
-            printf("depl invalide\n");
-        }
-    }
-    else if(c.type == MUR){
-        if(murValide(c.mur)){
-            board.tabdMur->ajouterElement(c.mur);
-        }
-        else{
-            printf("coup invalide\n");
-        }
-    }
-    else{
-        printf("coup invalide\n");
-    }
 };
 
 void Partie::deplacerPion (Pion& joueur, vec2<int> newpos){
@@ -214,3 +187,29 @@ void Partie::deplacerPion (Pion& joueur, vec2<int> newpos){
     board.Cases->SetCaseOccupant(newpos,joueur.ID); /*on met a jour la board*/
     
 };
+
+void Partie::jouerCoup(coup c){
+    /*on joue un coup en fonction de son type*/
+    if(c.type == DEPLACEMENT){
+        bool possible = deplacementValide(joueur1, c.newpos);
+        if(possible){
+            deplacerPion(joueur1, c.newpos);
+        }
+        else{
+            printf("deplacement invalide\n");
+        }
+    }
+    else if(c.type == MUR){
+        if(murValide(c.mur)){
+            if (board.tabdMur->concatenerMur(c.mur)) printf("Mur concaténé\n");
+            else board.tabdMur->ajouterElement(c.mur);
+        }
+        else{
+            printf("Mur invalide\n");
+        }
+    }
+    else{
+        printf("coup invalide\n");
+    }
+};
+
