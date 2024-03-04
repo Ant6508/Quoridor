@@ -7,6 +7,7 @@ struct Board{
 struct Pion{
     Case caseCourrante; //pointe vers la case du tableau de cases
     TypeOccupant ID;
+    int nbMur = 5;
 };
 
 enum typeCoup {DEPLACEMENT, MUR, RIEN};
@@ -34,11 +35,12 @@ class Partie
         Partie(int taille);
         ~Partie();
 
-        void initPions();
-
+        void initPions();/*Déclare et positionne sur le board les 2 pions*/
 
         /*fonctions pour les murs*/
         Mur* getMursbyDir(const Direction dir) const;
+        Mur* getMursbyX(const int x) const;
+        Mur* getMursbyY(const int y) const;
         bool murValide(const Mur& m) const;
         bool rencontreMur(const Pion& joueur, const Mur& m, const vec2<int> newpos) const;
 
@@ -52,9 +54,12 @@ class Partie
         void afficherCoup(const coup& c) const;
 
         //bool coupValide(coup c, const Pion& joueur) const;
-        void jouerCoup(const coup& c);
+        void jouerCoup(const coup& c, Pion& joueur) ;
         void annulerCoup(coup c);
         
+        void afficherJoueur(const Pion& joueur) const;
+
+        /*fonctions pour la fin de partie*/
         bool partieTerminee() const;
         bool gagnant(const TypeOccupant joueur) const;
 

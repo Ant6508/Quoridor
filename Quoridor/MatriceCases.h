@@ -1,47 +1,61 @@
+/*Module MatriceCases
+Ce module permet de gérer le tableau 2D de cases du plateau de jeu
+Il permet de visualiser les cases, de les modifier et de récupérer les voisins d'une case
+*/
+
+
+
 
 #include <iostream>
 #include <stdlib.h>
 #include "vec2.h"
 using namespace std;
 
-
 enum TypeOccupant
+/*Permet de savoir quel joueur se trouve sur la case*/
 {
     Vide=-1,J1=0,J2=1
+     /*Pour jouer à 3/4 ou plus il faudra agrandir cette énumération*/
 };
 
 struct Case
+/*Représente une case du board*/
 {
-    /* data */
     bool valide = true;
     vec2<int> position; 
     TypeOccupant Occupant ;
-
 };
-
-
 
 class MatriceCases
 {
-private:
-    /* data */
 public:
 
     /* données membres */
     int Taille;
-    Case **Cases; //Tableau 2D de cases
+    Case **Cases; //Tableau carré 2D de cases de taille Taille
 
-
-    /* fonctions membres */
+    /*constructeurs & destructeur*/
     MatriceCases(int taille); // Constructeur par défaut
     MatriceCases(); // Constructeur par défaut avec taille=8
     ~MatriceCases();
 
+    /*fonctions membres*/
 
-    void SetCaseOccupant(vec2<int> pos, TypeOccupant occupant); // Modifie l'occupant de la case à la position pos
-    Case getCase(vec2<int> pos) const; // Renvoie la case à la position pos
+    /*Setters*/
+    void SetCaseOccupant(vec2<int> pos, const TypeOccupant occupant);
+    /*Précondition: la position ne sort pas du board*/
+    /*Postcondition: la case à la position pos a pour occupant occupant*/
+
+    /*Getters*/
+    Case getCase(const vec2<int> pos) const; // Renvoie la case à la position pos
+    /*Précondition: la position ne sort pas du board*/
+    /*Postcondition: la case renvoyée est valide et est une copie de la case du board*/
+
     Case* GetVoisins(const Case &c) const; // Renvoie les voisins de la case c
+    /*Précondition: la case c est valide*/
+    /*Postcondition: le tableau renvoyé contient 4 cases, les cases non valides sont marquées comme telles*/
 
+    /*Fonctions d'affichage text*/
     void afficherCase(const Case &c) const; // Affiche la case c
     void afficher() const; // Affiche la matrice de cases
 

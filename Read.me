@@ -1,9 +1,25 @@
-Pour stocker les murs:
 
-Rappel : La structure d'un mur est tail:pos2 et head:pos2
-    On va différencier 2 types de mur vertical ou horizontal : en pratique on met arbitrèrement les murs horizontaux en premiers puis les murs verticaux
-    On va vouloir une fonction de concaténation de deux murs adjacents
+12# Quoridor
 
-on va simplement utiliser la structure tableau dynamique pour stocker ces murs
-Pour le moment on va stocker tous les murs dans le meme tableau dynamique en utilisant le fait qu on puisse rapidement trouver les couprs possibles pour le joeur
-et aussi du fait qu une fois les concaténations faites, il n y aura pas beacuoup de murs différents dans cette liste ( simplement des head et tail de plus en plus éloignés)
+Quoridor est un jeu de plateau aux règles simples et pourtant très stratégique.
+Nous proposons une implémentation du jeu entièrement basée en c++ dans le cadre du projet LIFAPCD
+
+# Règles du jeu Quoridor
+Bien que le jeu puisse se jouer à 4, on va le plus souvent raisonner sur des parties 1v1.
+Les règles sont simples et peuvent être énoncées ainsi:
+- Le jeu se passe sur un board carré de 9x9 cases
+- Chaque joueur incarne un Pion qui sont initialement placés face à face au centre de 2 lignes opposées
+- Tour à tour un joueur peut décider soit de déplacer son Pion sur une case adjecente innoccupée du board ou bien de placer un Mur de deux cases de longueur
+- Evidemment deux Murs ne peuvent pas se chavaucher, un Mur ne peut jamais "sortir" d'un côté ou de l'autre du board et enfin un Mur peut bloquer le
+déplacement d'un joueur d'une case vers une autre
+- La partie est gagné par l'un des joueur lorsque celui-ci arrive sur l'une des cases du côté opposé par rapport à celui dont il est partie
+
+
+# Auteurs
+RONGERE Julien P12025052
+
+
+#   
+
+
+

@@ -1,9 +1,12 @@
-#ifndef _TAB_DYN
-#define _TAB_DYN
+/*
+Le module TableauDynamiqueMur va gérer un tableau dynamique de murs.
+Cette classe va permettre de gérer les murs du jeu Quoridor qui sont surement les éléments les plus importants du jeu.
+Cette classe provient du code utilisé et TD mais a été largement modifiée pour s'adapter au jeu.
+*/
+
 
 /*importer Vec2*/
 #include "vec2.h"
-
 
 enum Direction {HORIZONTAL, VERTICAL, NONE};
 
@@ -12,12 +15,12 @@ struct Mur
     /* data */
     vec2<int> Tail;
     vec2<int> Head;
-    Direction dir;
+    Direction dir = NONE;
 
-    Mur operator+(const Mur m2) ;
-    bool operator/(const Mur m2) const ;
+    /*Opérateurs : présent dans TDM.cpp*/
+    Mur operator+(const Mur m2) ; /*Opérateur de concaténation bout à bout*/
+    bool operator/(const Mur m2) const ; /*Opérateur de croisement*/
 };
-
 
 
 class TableauDynamiqueMur {
@@ -25,7 +28,7 @@ public:
     /* données membres */
     /* =============== */
 
-    Mur * ad;
+    Mur * ad; /*Ptr vers le premier élément*/
     unsigned int capacite;
     unsigned int taille_utilisee;
 
@@ -51,6 +54,8 @@ public:
     void ajouterElement (Mur e);
     /* Postcondition : l'élément e est ajouté dans le premier emplacement inutilisé du tableau,
                        la taille est incrémentée de 1. Doublement de la capacité si nécessaire. */
+
+    bool croiserListeMurs(const Mur m1,const Mur* murs, const int taille) const;
 
     bool concatenerMur (Mur m);
     /* Algo : On cherche pour tous les murs présents dans le tableau si une concatenation bout-a-bout est possible */
@@ -83,7 +88,6 @@ public:
 
 private:
 
-
     /* fonctions membres */
     void modifierValeurIemeElement (Mur e, unsigned int indice);
     /* Precondition : 0 <= indice < taille_utilisee */
@@ -100,5 +104,3 @@ private:
     /* Postcondition : e est inséré à l'indice en paramètre et la taille utilisée est incrémentée de 1 */
     
 };
-
-#endif

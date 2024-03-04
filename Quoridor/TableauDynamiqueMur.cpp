@@ -9,6 +9,9 @@ using namespace std;
 
 
 Mur Mur::operator +(const Mur m2)  {
+  /*Opérateur de concaténation de deux murs bout à bout*/
+  /*Resulat : un mur qui est la concaténation des deux murs quand c'est possible
+            Sinon simplement un mur de dir None*/
     Mur m;
     if(dir == m2.dir && Head == m2.Tail )
     {
@@ -35,7 +38,8 @@ Mur Mur::operator +(const Mur m2)  {
 
 
 bool Mur::operator /(const Mur m2) const {
-
+  /*Opérateur de croisement de deux murs*/
+    
     if(dir != m2.dir) /*cas ou les murs ne sont pas de meme direction*/
     {
       if (dir == VERTICAL) return m2/ *this; /*pour sassurer que m2 toujours vertical*/
@@ -104,14 +108,41 @@ void TableauDynamiqueMur::ajouterElement (Mur e) {
   taille_utilisee++;
 }
 
+bool TableauDynamiqueMur::croiserListeMurs(const Mur m1,const Mur* murs, const int taille) const {
+  for (int i = 0; i < taille; i++) {
+      assert(murs[i].dir != NONE); /*on ne veut pas de mur de direction NONE dans la liste*/
+      if(m1/murs[i]) return true;
+  }
+  return false;
+}
+
+
+
 bool TableauDynamiqueMur::concatenerMur (Mur m) {
+  /*Cas ou concatenation possible en i: on fait l'op en i
+    si deuxieme possible on fait encore l'op en i */
+
+  unsigned tempint = -1; /*flag sur pile concatenation simple possible? -1 si non >0 si oui */
 
   for (unsigned int i = 0; i < taille_utilisee; i++) {
-      if(m.dir==ad[i].dir && (m.Head == ad[i].Tail || m.Tail == ad[i].Head)) {
-          ad[i] = ad[i] + m; 
-          return true; /*concaténation efféctuée*/
-      }}
 
+      if(m.dir==ad[i].dir && (m.Head == ad[i].Tail || m.Tail == ad[i].Head)) { /*par construction on au plus 2 fois cette condition */
+        
+          if( tempint != -1) { /*cas ou on a déjà eu un candidat*/
+            ad[tempint] = ad[tempint] + ad[i]; /*concaténation*/  
+            supprimerElement(i); /*suppression de l'élément concaténé*/
+          }
+
+          else {
+            ad[i] = ad[i] + m; /*cas ou on a pas encore eu de candidat*/
+            tempint = i; /*On enregistre à quel emplacement le 1er mur a été concaténé*/
+          }
+        }
+  }
+
+
+
+  if(tempint != -1) return true; /*concaténation efféctuée*/
   return false; /*concaténation non efféctuée*/
 }
 
@@ -124,10 +155,10 @@ void TableauDynamiqueMur::modifierValeurIemeElement (Mur e, unsigned int indice)
   ad[indice] = e;
 }
 
-
 void TableauDynamiqueMur::afficherElement (unsigned int indice) const {
   printf("Mur %d : Tail : %d %d, Head : %d %d, Direction : %d\n", indice, ad[indice].Tail.x, ad[indice].Tail.y, ad[indice].Head.x, ad[indice].Head.y, ad[indice].dir);
 }
+
 void TableauDynamiqueMur::afficher () const {
   for(unsigned int i = 0; i < taille_utilisee; i++) {
       afficherElement(i);
@@ -135,6 +166,7 @@ void TableauDynamiqueMur::afficher () const {
 }
 
 void TableauDynamiqueMur::supprimerElement (unsigned int indice) {
+  
   if(indice < taille_utilisee-1) {
       for(unsigned int p = indice; p < taille_utilisee-1; p++)
         ad[p] = ad[p+1];

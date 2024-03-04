@@ -49,20 +49,26 @@ MatriceCases::~MatriceCases()
 }
 
 void MatriceCases::SetCaseOccupant(const vec2<int> pos, const TypeOccupant occupant){
+/*Fonction type setter qui change l'occupant d'une case*/
+/*Précondition: la position ne sort pas du board*/
+
+    assert(pos.max() < Taille && pos.min() >= 0);
     Cases[pos.x][pos.y].Occupant = occupant;
 }
 
+Case MatriceCases::getCase(const vec2<int> pos) const{
+/*Fonction type getter qui renvoie la case à la position pos*/
+/*Précondition: la position ne sort pas du board*/
+/*Postcondition: la case renvoyée est valide et est une copie de la case du board*/
 
-Case MatriceCases::getCase(vec2<int> pos) const{
+    assert(pos.max() < Taille && pos.min() >= 0);
     return Cases[pos.x][pos.y];
 }
 
 
 Case* MatriceCases::GetVoisins(const Case &c) const {
 
-    //Renvoie les voisins de la case c
-    //On stock les voisins depuis la droite puis sens trigo
-    //NULL si au bord
+    assert(c.valide);
 
     Case *voisins = new Case [4];
     Case CaseNonValide;
@@ -87,8 +93,10 @@ Case* MatriceCases::GetVoisins(const Case &c) const {
     return voisins;
 
 }
+/*Fonctions d'affichage text*/
 
 void MatriceCases::afficherCase(const Case &c) const
+/*Fonction qui affiche les données d'une case*/
 {
     if(!c.valide)
     {
@@ -99,6 +107,7 @@ void MatriceCases::afficherCase(const Case &c) const
 }
 
 void MatriceCases::afficher() const
+/*Fonction qui affiche toutes les cases du board*/
 {
     for (int i = 0; i < Taille; i++)
     {
@@ -107,7 +116,6 @@ void MatriceCases::afficher() const
             afficherCase(getCase(vec2<int>(i, j)));
         }
     }
-
 }
 
 

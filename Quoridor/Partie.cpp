@@ -45,7 +45,7 @@ void Partie::initPions(){
 
 };
 
-Mur * Partie::getMursbyDir(Direction dir) const{
+Mur * Partie::getMursbyDir(const Direction dir) const{
     /*fonction renvoyant une liste des murs en  fonction du type en parametre*/
     Mur * murs = new Mur[board.tabdMur->taille_utilisee];
     int j = 0;
@@ -60,7 +60,40 @@ Mur * Partie::getMursbyDir(Direction dir) const{
     return murs;
 };
 
-coup Partie::coupofString(string s) const{
+Mur * Partie::getMursbyX(const int x) const{
+    /*fonction renvoyant une liste des murs en  fonction de la position en parametre*/
+    Mur * mursverticaux = getMursbyDir(VERTICAL);
+    Mur * murs = new Mur[board.tabdMur->taille_utilisee];
+    int j = 0;
+    for (int i = 0; i < board.tabdMur->taille_utilisee; i++){
+        Mur m = mursverticaux[i];
+        if (m.Tail.x == x && m.Head.x == x)
+        {
+            murs[j] = m;
+            j++;
+        }
+            }  
+    return murs;
+};
+
+
+Mur * Partie::getMursbyY(const int y) const{
+    /*fonction renvoyant une liste des murs en  fonction de la position en parametre*/
+    Mur * murshorizontaux = getMursbyDir(HORIZONTAL);
+    Mur * murs = new Mur[board.tabdMur->taille_utilisee];
+    int j = 0;
+    for (int i = 0; i < board.tabdMur->taille_utilisee; i++)
+    {
+        Mur m = murshorizontaux[i];
+        if(m.Tail.y == y && m.Head.y == y){
+            murs[j] = m;
+            j++;
+        }
+    }   
+    return murs;
+};
+
+coup Partie::coupofString(const string s) const{
     /*fonction qui renvoie un coup a partir d une chaine de caractere*/
     coup c;
     if(s[0] == 'D'){
@@ -124,8 +157,6 @@ bool Partie::murValide(const Mur& m) const {
     };
     /*3)verifier si il ne bloque pas le chemin d un joueur
     Configuration en x opposé (gauche vs doite) 
-    on veut regarder si */
-
 
     /*a coder*/
 
@@ -182,19 +213,20 @@ bool Partie::deplacementValide(const Pion& joueur, vec2<int> newpos) const{
     return true;
 };
 
-void Partie::deplacerPion (Pion& joueur, vec2<int> newpos){
+void Partie::deplacerPion (Pion& joueur, const
+ vec2<int> newpos){
     board.Cases->SetCaseOccupant(joueur.caseCourrante.position,TypeOccupant::Vide); /*On met vide sur la case courrante*/
     joueur.caseCourrante = board.Cases->getCase(newpos); /*On change la case courrante du joueur*/
     board.Cases->SetCaseOccupant(newpos,joueur.ID); /*on met a jour la board*/
     
 };
 
-void Partie::jouerCoup(const coup& c){
+void Partie::jouerCoup(const coup& c, Pion& joueur){
     /*on joue un coup en fonction de son type*/
     if(c.type == DEPLACEMENT){
-        bool possible = deplacementValide(joueur1, c.newpos);
+        bool possible = deplacementValide(joueur, c.newpos);
         if(possible){
-            deplacerPion(joueur1, c.newpos);
+            deplacerPion(joueur, c.newpos);
         }
         else{
             printf("deplacement invalide\n");
@@ -204,6 +236,7 @@ void Partie::jouerCoup(const coup& c){
         if(murValide(c.mur)){
             if (board.tabdMur->concatenerMur(c.mur)) printf("Mur concaténé\n");
             else board.tabdMur->ajouterElement(c.mur);
+            joueur.nbMur--;
         }
         else{
             printf("Mur invalide\n");
@@ -212,6 +245,10 @@ void Partie::jouerCoup(const coup& c){
     else{
         printf("coup invalide\n");
     }
+};
+
+void Partie::afficherJoueur(const Pion& joueur) const{
+    printf("Joueur %d en %d %d ,nbmurs : %d\n", joueur.ID, joueur.caseCourrante.position.x, joueur.caseCourrante.position.y, joueur.nbMur);
 };
 
 bool Partie::gagnant(const TypeOccupant joueur) const {

@@ -152,7 +152,7 @@ int main(){
     printf(valide3 ? "true\n" : "false\n");
     return 0;*/
 
-    /*test jouer coup*/
+    /*test jouer coup
     Partie p(5);
 
     string s = "D12";
@@ -162,21 +162,74 @@ int main(){
     coup c2 = p.coupofString(s2);
 
    
-    p.jouerCoup(c);
-    p.jouerCoup(c2);
+    p.jouerCoup(c, p.joueur1);
+    p.jouerCoup(c2, p.joueur1);
     p.board.tabdMur->afficher();
     p.board.Cases->afficher();
 
-    string s3 = "M0121";
+    string s3 = "M2324";
     coup c3 = p.coupofString(s3);
-    p.jouerCoup(c3);
+    p.jouerCoup(c3, p.joueur1);
 
     string s4 = "D00";
     coup c4 = p.coupofString(s4);
-    p.jouerCoup(c4);
+    p.jouerCoup(c4, p.joueur1);
+
+    p.afficherJoueur(p.joueur1);
     
 
-    return 0;
+    return 0;*/
 
+    /*test getMursbyXY
+    Partie p(5);
+
+    string s = "M1213";
+    string s2 = "M0020";
+
+    coup c = p.coupofString(s);
+    coup c2 = p.coupofString(s2);
+
+    p.jouerCoup(c, p.joueur1);
+    p.jouerCoup(c2, p.joueur1);
+
+    Mur* m = p.getMursbyX(1);
+    for (int i = 0; i < 1; i++){
+        printf("Mur %d : Tail : %d %d, Head : %d %d, Direction : %d\n", i, m[i].Tail.x, m[i].Tail.y, m[i].Head.x, m[i].Head.y, m[i].dir);
+    }
+
+    Mur* m2 = p.getMursbyY(1);
+    for (int i = 0; i < 1; i++){
+        printf("Mur %d : Tail : %d %d, Head : %d %d, Direction : %d\n", i, m2[i].Tail.x, m2[i].Tail.y, m2[i].Head.x, m2[i].Head.y, m2[i].dir);
+    }
+
+    return 0;*/
+
+    /*test concatener maj*/
+    Partie p(5);
+
+    Mur m1;
+    m1.Tail = vec2<int>(1,0);
+    m1.Head = vec2<int>(1,1);
+    m1.dir = VERTICAL;
+
+    Mur m2;
+    m2.Tail = vec2<int>(1,1);
+    m2.Head = vec2<int>(1,2);
+    m2.dir = VERTICAL;
+
+    Mur m3;
+    m3.Tail = vec2<int>(1,2);
+    m3.Head = vec2<int>(1,3);
+    m3.dir = VERTICAL;
+
+    p.board.tabdMur->ajouterElement(m1);
+    p.board.tabdMur->ajouterElement(m3);
+    p.board.tabdMur->afficher();
+    p.board.tabdMur->concatenerMur(m2);
+    p.board.tabdMur->afficher();
+
+
+    return 0;
+    
 
 }
