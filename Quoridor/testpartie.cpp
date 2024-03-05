@@ -204,32 +204,38 @@ int main(){
 
     return 0;*/
 
-    /*test concatener maj*/
-    Partie p(5);
+    /*test concatener maj
+    Partie p(9);
 
     Mur m1;
     m1.Tail = vec2<int>(1,0);
-    m1.Head = vec2<int>(1,1);
+    m1.Head = vec2<int>(1,3);
     m1.dir = VERTICAL;
 
     Mur m2;
-    m2.Tail = vec2<int>(1,1);
-    m2.Head = vec2<int>(1,2);
+    m2.Tail = vec2<int>(1,3);
+    m2.Head = vec2<int>(1,5);
     m2.dir = VERTICAL;
 
     Mur m3;
-    m3.Tail = vec2<int>(1,2);
-    m3.Head = vec2<int>(1,3);
+    m3.Tail = vec2<int>(1,5);
+    m3.Head = vec2<int>(1,7);
     m3.dir = VERTICAL;
 
     p.board.tabdMur->ajouterElement(m1);
     p.board.tabdMur->ajouterElement(m3);
-    p.board.tabdMur->afficher();
+    
     p.board.tabdMur->concatenerMur(m2);
     p.board.tabdMur->afficher();
 
+    return 0;/*
 
+    /*test joueur partie avec console*/
+    
+    Partie p(9);
+    p.jouerConsole();
     return 0;
     
+
 
 }

@@ -120,24 +120,25 @@ bool TableauDynamiqueMur::croiserListeMurs(const Mur m1,const Mur* murs, const i
 
 bool TableauDynamiqueMur::concatenerMur (Mur m) {
   /*Cas ou concatenation possible en i: on fait l'op en i
-    si deuxieme possible on fait encore l'op en i */
+    si deuxieme possible en j on fait encore l'op en i puis delete j*/
 
   unsigned tempint = -1; /*flag sur pile concatenation simple possible? -1 si non >0 si oui */
 
   for (unsigned int i = 0; i < taille_utilisee; i++) {
 
-      if(m.dir==ad[i].dir && (m.Head == ad[i].Tail || m.Tail == ad[i].Head)) { /*par construction on au plus 2 fois cette condition */
-        
-          if( tempint != -1) { /*cas ou on a déjà eu un candidat*/
-            ad[tempint] = ad[tempint] + ad[i]; /*concaténation*/  
-            supprimerElement(i); /*suppression de l'élément concaténé*/
-          }
+    if(m.dir==ad[i].dir && (m.Head == ad[i].Tail || m.Tail == ad[i].Head)) { /*par construction on au plus 2 fois cette condition */
+      
+      if( tempint != -1) { /*cas ou on a déjà eu un candidat*/
+        ad[tempint] = ad[tempint] + ad[i]; /*concaténation*/  
+        supprimerElement(i); /*suppression de l'élément concaténé*/
+        return true;
+      }
 
-          else {
-            ad[i] = ad[i] + m; /*cas ou on a pas encore eu de candidat*/
-            tempint = i; /*On enregistre à quel emplacement le 1er mur a été concaténé*/
-          }
-        }
+      else {
+        ad[i] = ad[i] + m; /*cas ou on a pas encore eu de candidat*/
+        tempint = i; /*On enregistre à quel emplacement le 1er mur a été concaténé*/
+      }
+    }
   }
 
 

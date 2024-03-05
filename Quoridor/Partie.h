@@ -6,7 +6,7 @@ struct Board{
 };
 struct Pion{
     Case caseCourrante; //pointe vers la case du tableau de cases
-    TypeOccupant ID;
+    TypeOccupant ID = TypeOccupant::Vide;
     int nbMur = 5;
 };
 
@@ -58,10 +58,13 @@ class Partie
         void annulerCoup(coup c);
         
         void afficherJoueur(const Pion& joueur) const;
+        void afficherPartie(const bool verboseCases) const; /*VerboseCases permet d'afficher les cases du board ou non*/
 
         /*fonctions pour la fin de partie*/
         bool partieTerminee() const;
         bool gagnant(const TypeOccupant joueur) const;
+
+        void jouerConsole();
 
 
 };

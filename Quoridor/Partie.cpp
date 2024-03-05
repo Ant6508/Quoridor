@@ -213,8 +213,7 @@ bool Partie::deplacementValide(const Pion& joueur, vec2<int> newpos) const{
     return true;
 };
 
-void Partie::deplacerPion (Pion& joueur, const
- vec2<int> newpos){
+void Partie::deplacerPion (Pion& joueur, const vec2<int> newpos){
     board.Cases->SetCaseOccupant(joueur.caseCourrante.position,TypeOccupant::Vide); /*On met vide sur la case courrante*/
     joueur.caseCourrante = board.Cases->getCase(newpos); /*On change la case courrante du joueur*/
     board.Cases->SetCaseOccupant(newpos,joueur.ID); /*on met a jour la board*/
@@ -251,6 +250,14 @@ void Partie::afficherJoueur(const Pion& joueur) const{
     printf("Joueur %d en %d %d ,nbmurs : %d\n", joueur.ID, joueur.caseCourrante.position.x, joueur.caseCourrante.position.y, joueur.nbMur);
 };
 
+void Partie::afficherPartie(const bool verboseCases) const{
+    printf("Tour courant : %d\n", coupCourant);
+    afficherJoueur(joueur1);
+    afficherJoueur(joueur2);
+    board.tabdMur->afficher();
+    if(verboseCases) board.Cases->afficher();
+};
+
 bool Partie::gagnant(const TypeOccupant joueur) const {
     /*on regarde si un joueur a gagné*/
 
@@ -267,3 +274,40 @@ bool Partie::partieTerminee() const{
     /*on regarde si un joueur a gagné*/
     return gagnant(TypeOccupant::J1) || gagnant(TypeOccupant::J2);
 };
+
+
+
+void Partie::jouerConsole() {
+    /*Lance une partie avec input console*/
+
+    while(true){
+
+        afficherPartie(false);
+
+        char* s;
+        printf("Entrez un coup : ");
+        scanf("%s", &s);
+        printf("Vous avez MIT : %s\n", s);
+        if (s == "exit") break;
+        coup c = coupofString(s);
+        afficherCoup(c);
+        if(c.type == RIEN) continue;
+
+        if(coupCourant % 2 == 0){
+            jouerCoup(c, joueur1);
+        }
+        else{
+            jouerCoup(c, joueur2);
+        }
+
+        if(partieTerminee()){
+            printf("Partie terminee\n");
+            break;
+        }
+        coupCourant++;
+
+
+
+    }
+    
+}
