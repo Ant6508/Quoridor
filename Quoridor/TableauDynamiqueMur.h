@@ -15,7 +15,7 @@ struct Mur
     /* data */
     vec2<int> Tail;
     vec2<int> Head;
-    Direction dir = NONE;
+    Direction dir = Direction::NONE;
 
     /*Opérateurs : présent dans TDM.cpp*/
     Mur operator+(const Mur m2) ; /*Opérateur de concaténation bout à bout*/

@@ -1,4 +1,5 @@
-
+#include "MatriceCases.h"
+#include "TableauDynamiqueMur.h"
 
 struct Board{
     TableauDynamiqueMur* tabdMur;

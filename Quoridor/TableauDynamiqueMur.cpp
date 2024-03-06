@@ -30,7 +30,7 @@ Mur Mur::operator +(const Mur m2)  {
     else
     {
         cout << "Les murs ne sont pas concaténables" << endl;
-        m.dir = NONE;
+        m.dir = Direction::NONE;
         return m;  
     }
 };
@@ -118,7 +118,7 @@ bool TableauDynamiqueMur::croiserListeMurs(const Mur m1,const Mur* murs, const i
 
 
 
-bool TableauDynamiqueMur::concatenerMur (Mur m) {
+bool TableauDynamiqueMur::concatenerMur (const Mur m) {
   /*Cas ou concatenation possible en i: on fait l'op en i
     si deuxieme possible en j on fait encore l'op en i puis delete j*/
 
@@ -126,7 +126,7 @@ bool TableauDynamiqueMur::concatenerMur (Mur m) {
 
   for (unsigned int i = 0; i < taille_utilisee; i++) {
 
-    if(m.dir==ad[i].dir && (m.Head == ad[i].Tail || m.Tail == ad[i].Head)) { /*par construction on au plus 2 fois cette condition */
+    if(m.dir==ad[i].dir && ( ad[i].Tail == m.Head || ad[i].Head==m.Tail )) { /*par construction on au plus 2 fois cette condition */
       
       if( tempint != -1) { /*cas ou on a déjà eu un candidat*/
         ad[tempint] = ad[tempint] + ad[i]; /*concaténation*/  
