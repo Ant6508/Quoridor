@@ -95,7 +95,7 @@ public:
 	}
 
 	// Operateurs de comparaison entre deux vec2
-	bool operator ==(const vec2<int> v) {
+	bool operator ==(const vec2<int> v) const{
 		return (v.x == x) && (v.y == y);
 	};
 	
@@ -149,15 +149,6 @@ public:
 		this->y = y;
 	}
 	
-	void rotate(double deg) {
-		double theta = deg / 180.0 * M_PI;
-		double c = cos(theta);
-		double s = sin(theta);
-		double tx = x * c - y * s;
-		double ty = x * s + y * c;
-		x = tx;
-		y = ty;
-	}
 	
 	vec2& normalize() {
 		if (length() == 0) return *this;

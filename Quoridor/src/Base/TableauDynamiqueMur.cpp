@@ -22,8 +22,8 @@ Mur Mur::operator +(const Mur m2)  {
     }
     else if(dir == m2.dir && Tail == m2.Head )
     {
-        m.Head = m2.Head;
-        m.Tail = Tail;
+        m.Head = Head;
+        m.Tail = m2.Tail;
         m.dir = dir;
         return m;
     }
@@ -40,24 +40,29 @@ Mur Mur::operator +(const Mur m2)  {
 bool Mur::operator /(const Mur m2) const {
   /*Opérateur de croisement de deux murs*/
     
-    if(dir != m2.dir) /*cas ou les murs ne sont pas de meme direction*/
+    /*verifier si les deux murs sont egaux avec ==*/
+    if(*this == m2) return true;
+
+    else if(dir != m2.dir) /*cas ou les murs ne sont pas de meme direction*/
     {
-      if (dir == VERTICAL) return m2/ *this; /*pour sassurer que m2 toujours vertical*/
+      if (dir == Direction::VERTICAL) return m2/ *this; /*pour sassurer que m2 toujours vertical*/
       
-      if((Tail.x < m2.Tail.x && m2.Tail.x < Head.x) &&( m2.Tail.y < Tail.y && Tail.y < m2.Head.y)) /*les parentheses sont inutiles mais cest pour se souvenir*/
-        {
-            return true;
-        }
+      if((Tail.x < m2.Tail.x && m2.Tail.x < Head.x) && ( m2.Tail.y < Tail.y && Tail.y < m2.Head.y)) return true;
+
     }
     else if(dir == m2.dir) /*cas des murs qui ont la meme direction*/
     {
-        if (dir == HORIZONTAL) return (m2.Tail.x < Tail.x && Tail.x < m2.Head.x) || (m2.Tail.x < Head.x && Head.x < m2.Head.x);
+        if (dir == Direction::HORIZONTAL) return ( ( (m2.Tail.x < Tail.x && Tail.x < m2.Head.x) || (m2.Tail.x < Head.x && Head.x < m2.Head.x) ) && (Tail.y == m2.Tail.y));
 
-        if (dir == VERTICAL) return (m2.Tail.y < Tail.y && Tail.y < m2.Head.y) || (m2.Tail.y < Head.y && Head.y < m2.Head.y);
+        if (dir == Direction::VERTICAL) return ( ( (m2.Tail.y < Tail.y && Tail.y < m2.Head.y) || (m2.Tail.y < Head.y && Head.y < m2.Head.y) ) && (Tail.x == m2.Tail.x));
     }
     return false;
 }
 
+bool Mur::operator ==(const Mur m2) const {
+  /*Opérateur d'égalité de deux murs*/
+    return (Tail == m2.Tail && Head == m2.Head);
+}
 
 TableauDynamiqueMur::TableauDynamiqueMur () {
 
@@ -110,13 +115,11 @@ void TableauDynamiqueMur::ajouterElement (Mur e) {
 
 bool TableauDynamiqueMur::croiserListeMurs(const Mur m1,const Mur* murs, const int taille) const {
   for (int i = 0; i < taille; i++) {
-      assert(murs[i].dir != NONE); /*on ne veut pas de mur de direction NONE dans la liste*/
+      assert(murs[i].dir != Direction::NONE); /*on ne veut pas de mur de direction NONE dans la liste*/
       if(m1/murs[i]) return true;
   }
   return false;
 }
-
-
 
 bool TableauDynamiqueMur::concatenerMur (const Mur m) {
   /*Cas ou concatenation possible en i: on fait l'op en i
@@ -147,7 +150,6 @@ bool TableauDynamiqueMur::concatenerMur (const Mur m) {
   return false; /*concaténation non efféctuée*/
 }
 
-
 Mur TableauDynamiqueMur::valeurIemeElement (unsigned int indice) const {
   return ad[indice];
 }
@@ -156,8 +158,16 @@ void TableauDynamiqueMur::modifierValeurIemeElement (Mur e, unsigned int indice)
   ad[indice] = e;
 }
 
+char* TableauDynamiqueMur::toString(unsigned int indice) const 
+{
+  Mur m = ad[indice];
+  char* str = new char[100];
+  sprintf_s(str, 100, "Mur %d : Taille : (%d,%d) Head : (%d,%d) Direction : %d\n", indice, m.Tail.x, m.Tail.y, m.Head.x, m.Head.y, m.dir);
+  return str;
+}
+
 void TableauDynamiqueMur::afficherElement (unsigned int indice) const {
-  printf("Mur %d : Tail : %d %d, Head : %d %d, Direction : %d\n", indice, ad[indice].Tail.x, ad[indice].Tail.y, ad[indice].Head.x, ad[indice].Head.y, ad[indice].dir);
+  printf(toString(indice));
 }
 
 void TableauDynamiqueMur::afficher () const {

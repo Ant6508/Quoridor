@@ -179,8 +179,9 @@ int main(){
     
 
     return 0;*/
-
-    /*test getMursbyXY
+    /*
+    cout << "test" << endl;
+    printf("t");
     Partie p(5);
 
     string s = "M1213";
@@ -188,21 +189,23 @@ int main(){
 
     coup c = p.coupofString(s);
     coup c2 = p.coupofString(s2);
-
+    printf("t");
     p.jouerCoup(c, p.joueur1);
     p.jouerCoup(c2, p.joueur1);
+    p.board.tabdMur->afficher();
+
+    int n = p.board.tabdMur->taille_utilisee;
 
     Mur* m = p.getMursbyX(1);
-    for (int i = 0; i < 1; i++){
+    for (int i = 0; i < n; i++){
         printf("Mur %d : Tail : %d %d, Head : %d %d, Direction : %d\n", i, m[i].Tail.x, m[i].Tail.y, m[i].Head.x, m[i].Head.y, m[i].dir);
-    }
+    } 
 
-    Mur* m2 = p.getMursbyY(1);
-    for (int i = 0; i < 1; i++){
+    Mur* m2 = .getMursbyY(1);
+    for (int i = 0; i < n; i++){
         printf("Mur %d : Tail : %d %d, Head : %d %d, Direction : %d\n", i, m2[i].Tail.x, m2[i].Tail.y, m2[i].Head.x, m2[i].Head.y, m2[i].dir);
-    }
+    }*/
 
-    return 0;*/
 
     /*test concatener maj
     Partie p(9);
@@ -228,14 +231,37 @@ int main(){
     p.board.tabdMur->concatenerMur(m2);
     p.board.tabdMur->afficher();
 
-    return 0;/*
-
-    /*test joueur partie avec console*/
-    
-    Partie p(9);
-    p.jouerConsole();
     return 0;
+
+    test joueur partie avec console
     
+    Partie p(8);
+    p.afficherJoueur(p.joueur1);
+    
+    string s1 ="M0434";
+    coup c1 = p.coupofString(s1);
 
+    p.jouerCoup(c1, p.joueur1);
+    p.board.tabdMur->afficher();
+    p.afficherJoueur(p.joueur1);
 
+    coup c2 = p.coupofString("D03");    
+
+    bool valide = p.coupValide(c2, p.joueur1);
+    printf(valide ? "true\n" : "false\n");*/
+
+    printf("test\n");
+    cout << "test" << endl;
+
+    /*Partie p(9);
+    string s = "M3353";
+    coup c = p.coupofString(s);
+    p.jouerCoup(c, p.joueur1);
+
+    string s2 = "M4464";
+    coup c2 = p.coupofString(s2);
+    bool valide = p.coupValide(c2, p.joueur1);
+    printf(valide ? "true\n" : "false\n");*/
+
+    return 0;
 }

@@ -1,25 +1,34 @@
+# Quoridor
 
-12# Quoridor
-
-Quoridor est un jeu de plateau aux règles simples et pourtant très stratégique.
+Quoridor est un jeu stratégique de plateau aux règles simples.
 Nous proposons une implémentation du jeu entièrement basée en c++ dans le cadre du projet LIFAPCD
+On peut décomposer le projet en une partie Base et une partie UI
 
 # Règles du jeu Quoridor
-Bien que le jeu puisse se jouer à 4, on va le plus souvent raisonner sur des parties 1v1.
+Bien que le jeu puisse se jouer à 4, l'implémentation est en 1v1.
 Les règles sont simples et peuvent être énoncées ainsi:
-- Le jeu se passe sur un board carré de 9x9 cases
+- Le jeu se passe sur un board carré de 8x8 cases
 - Chaque joueur incarne un Pion qui sont initialement placés face à face au centre de 2 lignes opposées
 - Tour à tour un joueur peut décider soit de déplacer son Pion sur une case adjecente innoccupée du board ou bien de placer un Mur de deux cases de longueur
-- Evidemment deux Murs ne peuvent pas se chavaucher, un Mur ne peut jamais "sortir" d'un côté ou de l'autre du board et enfin un Mur peut bloquer le
+- Evidemment deux Murs ne peuvent pas se chavaucher, un Mur ne peut jamais "sortir" d'un côté ou de l'autre du board et enfin un Mur bloque le
 déplacement d'un joueur d'une case vers une autre
 - La partie est gagné par l'un des joueur lorsque celui-ci arrive sur l'une des cases du côté opposé par rapport à celui dont il est partie
-
 
 # Auteurs
 RONGERE Julien P12025052
 
 
-#   
+# Base du jeu
+La base du jeu est située dans le dossier /Quoridor
+L'idée de base est que nous voulons implémenter un Board qui contient les cases ou se trouvent les joueurs et à l fois les murs qui ont été posés
+On stock alors simplement les cases dans un tableau 2D et les murs dans un tableau dynamique.
+On se garentit un tableau dynamique toujours relativement peu grand grâce à un opérateur de concaténation de murs appelé à chaque nouveau mur.
+
+Ces deux éléments sont alors assemblés dans le classe Partie
+Celle-ci peut jouer un coup, vérifier la validité d'un coup etc...
+
+
+
 
 
 

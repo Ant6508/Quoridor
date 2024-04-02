@@ -1,20 +1,24 @@
+
+
+#ifndef __PARTIE_H__
+#define __PARTIE_H__
+
 #include "MatriceCases.h"
 #include "TableauDynamiqueMur.h"
-
 struct Board{
     TableauDynamiqueMur* tabdMur;
     MatriceCases* Cases;
 };
 struct Pion{
-    Case caseCourrante; //pointe vers la case du tableau de cases
+    Case caseCourante; 
     TypeOccupant ID = TypeOccupant::Vide;
     int nbMur = 5;
 };
 
-enum typeCoup {DEPLACEMENT, MUR, RIEN};
+enum class typeCoup {DEPLACEMENT, MUR, RIEN};
 
 struct coup{
-    typeCoup type;
+    typeCoup type = typeCoup::RIEN;
     vec2<int> newpos;
     Mur mur;
 
@@ -47,16 +51,16 @@ class Partie
 
         /*fonctions pour les deplacements*/
         bool deplacementValide(const Pion& joueur,const vec2<int> pos) const;
-        void deplacerPion(Pion& joueur, const vec2<int> pos); /*fonction type setter donc pa de const*/
+        void deplacerPion(Pion& joueur, const vec2<int> pos); /*fonction type setter donc pas de const*/
 
  
         /*fonctions pour les coups*/
+        bool stringValide(const string s) const;
         coup coupofString(const string s) const;
         void afficherCoup(const coup& c) const;
 
-        //bool coupValide(coup c, const Pion& joueur) const;
+        bool coupValide(coup c, const Pion& joueur) const;
         void jouerCoup(const coup& c, Pion& joueur) ;
-        void annulerCoup(coup c);
         
         void afficherJoueur(const Pion& joueur) const;
         void afficherPartie(const bool verboseCases) const; /*VerboseCases permet d'afficher les cases du board ou non*/
@@ -69,3 +73,5 @@ class Partie
 
 
 };
+
+#endif

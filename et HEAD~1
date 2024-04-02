@@ -1,0 +1,65 @@
+[33mcommit e73dee3d12e36e078e86bc84b2519385057b9bfc[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: Ant6508 <julien.rongere20@gmail.com>
+Date:   Thu Mar 7 08:07:46 2024 +0100
+
+    push du proj VS avec source jeu ajoutée et linked
+
+[1mdiff --git a/.gitignore b/.gitignore[m
+[1mdeleted file mode 100644[m
+[1mindex e7132ca..0000000[m
+[1m--- a/.gitignore[m
+[1m+++ /dev/null[m
+[36m@@ -1 +0,0 @@[m
+[31m-UI/[m
+\ No newline at end of file[m
+[1mdiff --git a/.vscode/settings.json b/.vscode/settings.json[m
+[1mindex 407c332..ab864a7 100644[m
+[1m--- a/.vscode/settings.json[m
+[1m+++ b/.vscode/settings.json[m
+[36m@@ -1,6 +1,7 @@[m
+ {[m
+     "files.associations": {[m
+         "iostream": "cpp",[m
+[31m-        "xstring": "cpp"[m
+[32m+[m[32m        "xstring": "cpp",[m
+[32m+[m[32m        "string": "cpp"[m
+     }[m
+ }[m
+\ No newline at end of file[m
+[1mdiff --git a/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/.suo b/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/.suo[m
+[1mnew file mode 100644[m
+[1mindex 0000000..e631b08[m
+Binary files /dev/null and b/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/.suo differ
+[1mdiff --git a/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/Browse.VC.db b/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/Browse.VC.db[m
+[1mnew file mode 100644[m
+[1mindex 0000000..61493ee[m
+Binary files /dev/null and b/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/Browse.VC.db differ
+[1mdiff --git a/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/1396614870cf5c6c/APP.ipch b/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/1396614870cf5c6c/APP.ipch[m
+[1mnew file mode 100644[m
+[1mindex 0000000..f1170e7[m
+Binary files /dev/null and b/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/1396614870cf5c6c/APP.ipch differ
+[1mdiff --git a/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/1421aa982ade8d60/PARTIE.ipch b/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/1421aa982ade8d60/PARTIE.ipch[m
+[1mnew file mode 100644[m
+[1mindex 0000000..b48ffb8[m
+Binary files /dev/null and b/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/1421aa982ade8d60/PARTIE.ipch differ
+[1mdiff --git a/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/1b24ccfe2bdba6d/PARTIE.ipch b/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/1b24ccfe2bdba6d/PARTIE.ipch[m
+[1mnew file mode 100644[m
+[1mindex 0000000..b10661d[m
+Binary files /dev/null and b/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/1b24ccfe2bdba6d/PARTIE.ipch differ
+[1mdiff --git a/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/286d20d6a19e58f1/MAINFRAME.ipch b/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/286d20d6a19e58f1/MAINFRAME.ipch[m
+[1mnew file mode 100644[m
+[1mindex 0000000..62386c8[m
+Binary files /dev/null and b/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/286d20d6a19e58f1/MAINFRAME.ipch differ
+[1mdiff --git a/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/31724a4e0e688101/WX.ipch b/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/31724a4e0e688101/WX.ipch[m
+[1mnew file mode 100644[m
+[1mindex 0000000..5921334[m
+Binary files /dev/null and b/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/31724a4e0e688101/WX.ipch differ
+[1mdiff --git a/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/3c9cf023926cc24a/TABLEAUDYNAMIQUEMUR.ipch b/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/3c9cf023926cc24a/TABLEAUDYNAMIQUEMUR.ipch[m
+[1mnew file mode 100644[m
+[1mindex 0000000..f57e1b9[m
+Binary files /dev/null and b/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/3c9cf023926cc24a/TABLEAUDYNAMIQUEMUR.ipch differ
+[1mdiff --git a/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/419da3ebc699ba20/MAINFRAME.ipch b/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/419da3ebc699ba20/MAINFRAME.ipch[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fb4841c[m
+Binary files /dev/null and b/UI/Quoridor_cpp_ui/.vs/Quoridor_cpp_ui/v16/ipch/AutoPCH/419da3ebc699ba20/MAINFRAME.ipch differ
+[1mdiff --git a/UI/Quorido

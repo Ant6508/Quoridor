@@ -26,15 +26,9 @@ MatriceCases::MatriceCases(int taille)
             vec2<int> pos(i, j);
             Cases[i][j].position = pos;
 
-            Cases[i][j].Occupant = Vide;
+            Cases[i][j].Occupant = TypeOccupant::Vide;
         }
     }
-}
-
-MatriceCases::MatriceCases()
-{
-    Taille = 9; //Taille par défaut
-    MatriceCases(Taille);
 }
 
 MatriceCases::~MatriceCases()

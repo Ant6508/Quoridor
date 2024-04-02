@@ -1,14 +1,15 @@
-/*
-Le module TableauDynamiqueMur va gérer un tableau dynamique de murs.
+/* Le module TableauDynamiqueMur va gérer un tableau dynamique de murs.
 Cette classe va permettre de gérer les murs du jeu Quoridor qui sont surement les éléments les plus importants du jeu.
 Cette classe provient du code utilisé et TD mais a été largement modifiée pour s'adapter au jeu.
 */
 
+#ifndef TABLEAUDYNAMIQUEMUR_H__
+#define TABLEAUDYNAMIQUEMUR_H__
 
 /*importer Vec2*/
 #include "vec2.h"
 
-enum Direction {HORIZONTAL, VERTICAL, NONE};
+enum class Direction {HORIZONTAL, VERTICAL, NONE};
 
 struct Mur
 {
@@ -20,6 +21,7 @@ struct Mur
     /*Opérateurs : présent dans TDM.cpp*/
     Mur operator+(const Mur m2) ; /*Opérateur de concaténation bout à bout*/
     bool operator/(const Mur m2) const ; /*Opérateur de croisement*/
+    bool operator==(const Mur m2) const; /*Opérateur d'égalité*/
 };
 
 
@@ -67,6 +69,7 @@ public:
     /* Precondition : 0 <= indice < taille_utilisee */
     /* Resultat : retourne l'Mur à l'indice en paramètre */
 
+    char* toString(unsigned int indice) const;
 
     void afficherElement (unsigned int indice) const;
     /* Precondition : 0 <= indice < taille_utilisee */
@@ -74,16 +77,6 @@ public:
 
     void afficher () const;
     /* Postcondition : tous les éléments du tableau sont affichés sur la sortie standard */
-
-
-    void trier (); 
-    /* Postcondition : le tableau est trié dans l'ordre croissant des valeurs des éléments */
-    /*il faudrait definir une fonction de comparaison entre deux murs ...*/
-
-    int rechercherElement (Mur e) const;
-    /* Precondition : le tableau est trié dans l'ordre croissant */
-    /* Résultat : indice de l'emplacement qui contient un Mur égal à e,
-                  -1 si le tableau ne contient pas d'élément égal à e */
 
 
 private:
@@ -104,3 +97,5 @@ private:
     /* Postcondition : e est inséré à l'indice en paramètre et la taille utilisée est incrémentée de 1 */
     
 };
+
+#endif

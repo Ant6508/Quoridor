@@ -3,7 +3,8 @@ Ce module permet de gérer le tableau 2D de cases du plateau de jeu
 Il permet de visualiser les cases, de les modifier et de récupérer les voisins d'une case
 */
 
-
+#ifndef MATRICECASES_H__
+#define MATRICECASES_H__
 
 
 #include <iostream>
@@ -11,7 +12,7 @@ Il permet de visualiser les cases, de les modifier et de récupérer les voisins
 #include "vec2.h"
 using namespace std;
 
-enum TypeOccupant
+enum class TypeOccupant
 /*Permet de savoir quel joueur se trouve sur la case*/
 {
     Vide=-1,J1=0,J2=1
@@ -23,7 +24,7 @@ struct Case
 {
     bool valide = true;
     vec2<int> position; 
-    TypeOccupant Occupant ;
+    TypeOccupant Occupant = TypeOccupant::Vide ;
 };
 
 class MatriceCases
@@ -36,7 +37,6 @@ public:
 
     /*constructeurs & destructeur*/
     MatriceCases(int taille); // Constructeur par défaut
-    MatriceCases(); // Constructeur par défaut avec taille=8
     ~MatriceCases();
 
     /*fonctions membres*/
@@ -62,3 +62,4 @@ public:
 };
 
 
+#endif
