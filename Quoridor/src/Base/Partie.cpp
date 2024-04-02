@@ -51,52 +51,6 @@ void Partie::initPions(){
 
 };
 
-Mur * Partie::getMursbyDir(const Direction dir) const{
-    /*fonction renvoyant une liste des murs en  fonction du type en parametre*/
-    Mur * murs = new Mur[board.tabdMur->taille_utilisee];
-    int j = 0;
-    for (int i = 0; i < board.tabdMur->taille_utilisee; i++)
-    {
-        Mur m = board.tabdMur->valeurIemeElement(i);
-        if(m.dir == dir){
-            murs[j] = m;
-            j++;
-        }
-    }
-    return murs;
-};
-
-Mur * Partie::getMursbyX(const int x) const{
-    /*fonction renvoyant une liste des murs en  fonction de la position en parametre*/
-    Mur * mursverticaux = getMursbyDir(Direction::VERTICAL);
-    Mur * murs = new Mur[board.tabdMur->taille_utilisee];
-    int j = 0;
-    for (int i = 0; i < board.tabdMur->taille_utilisee; i++){
-        Mur m = mursverticaux[i];
-        if (m.Tail.x == x && m.Head.x == x && m.dir == Direction::VERTICAL)
-        {
-            murs[j] = m;
-            j++;
-        }
-            }  
-    return murs;
-};
-
-Mur * Partie::getMursbyY(const int y) const{
-    /*fonction renvoyant une liste des murs en  fonction de la position en parametre*/
-    Mur * murshorizontaux = getMursbyDir(Direction::HORIZONTAL);
-    Mur * murs = new Mur[board.tabdMur->taille_utilisee];
-    int j = 0;
-    for (int i = 0; i < board.tabdMur->taille_utilisee; i++)
-    {
-        Mur m = murshorizontaux[i];
-        if(m.Tail.y == y && m.Head.y == y && m.dir == Direction::HORIZONTAL){
-            murs[j] = m;
-            j++;
-        }
-    }   
-    return murs;
-};
 
 bool Partie::stringValide(const string s) const
 {

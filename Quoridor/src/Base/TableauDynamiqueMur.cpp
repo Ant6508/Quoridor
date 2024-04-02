@@ -18,57 +18,52 @@ Mur Mur::operator +(const Mur m2)  {
         m.Head = m2.Head;
         m.Tail = Tail;
         m.dir = dir;
-        return m;
     }
     else if(dir == m2.dir && Tail == m2.Head )
     {
         m.Head = Head;
         m.Tail = m2.Tail;
         m.dir = dir;
-        return m;
     }
-    else
-    {
-        cout << "Les murs ne sont pas concaténables" << endl;
-        m.dir = Direction::NONE;
-        return m;  
-    }
+    else m.dir = Direction::NONE;
+    
+    return m;
 };
-
 
 
 bool Mur::operator /(const Mur m2) const {
   /*Opérateur de croisement de deux murs*/
     
-    /*verifier si les deux murs sont egaux avec ==*/
-    if(*this == m2) return true;
+  /*verifier si les deux murs sont egaux avec ==*/
 
-    else if(dir != m2.dir) /*cas ou les murs ne sont pas de meme direction*/
-    {
-      if (dir == Direction::VERTICAL) return m2/ *this; /*pour sassurer que m2 toujours vertical*/
-      
-      if((Tail.x < m2.Tail.x && m2.Tail.x < Head.x) && ( m2.Tail.y < Tail.y && Tail.y < m2.Head.y)) return true;
+  if(*this == m2) return true;
 
-    }
-    else if(dir == m2.dir) /*cas des murs qui ont la meme direction*/
-    {
-        if (dir == Direction::HORIZONTAL) return ( ( (m2.Tail.x < Tail.x && Tail.x < m2.Head.x) || (m2.Tail.x < Head.x && Head.x < m2.Head.x) ) && (Tail.y == m2.Tail.y));
+  else if(dir != m2.dir) /*cas ou les murs ne sont pas de meme direction*/
+  {
+    if (dir == Direction::VERTICAL) return m2/ *this; /*pour sassurer que m2 toujours vertical*/
+    
+    if((Tail.x < m2.Tail.x && m2.Tail.x < Head.x) && ( m2.Tail.y < Tail.y && Tail.y < m2.Head.y)) return true;
 
-        if (dir == Direction::VERTICAL) return ( ( (m2.Tail.y < Tail.y && Tail.y < m2.Head.y) || (m2.Tail.y < Head.y && Head.y < m2.Head.y) ) && (Tail.x == m2.Tail.x));
-    }
-    return false;
+  }
+  else if(dir == m2.dir) /*cas des murs qui ont la meme direction*/
+  {
+      if (dir == Direction::HORIZONTAL) return ( ( (m2.Tail.x < Tail.x && Tail.x < m2.Head.x) || (m2.Tail.x < Head.x && Head.x < m2.Head.x) ) && (Tail.y == m2.Tail.y));
+
+      if (dir == Direction::VERTICAL) return ( ( (m2.Tail.y < Tail.y && Tail.y < m2.Head.y) || (m2.Tail.y < Head.y && Head.y < m2.Head.y) ) && (Tail.x == m2.Tail.x));
+  }
+  return false;
 }
 
 bool Mur::operator ==(const Mur m2) const {
   /*Opérateur d'égalité de deux murs*/
-    return (Tail == m2.Tail && Head == m2.Head);
+  return (Tail == m2.Tail && Head == m2.Head);
 }
 
 TableauDynamiqueMur::TableauDynamiqueMur () {
 
-    ad = new Mur [1]; //pointeur générique vers un mur
-    capacite = 1;
-    taille_utilisee = 0;
+  ad = new Mur [1]; //pointeur générique vers un mur
+  capacite = 1;
+  taille_utilisee = 0;
 }
 
 TableauDynamiqueMur::TableauDynamiqueMur (const TableauDynamiqueMur & t) { //const tdm & t pour ne pas modifier t
@@ -113,14 +108,6 @@ void TableauDynamiqueMur::ajouterElement (Mur e) {
   taille_utilisee++;
 }
 
-bool TableauDynamiqueMur::croiserListeMurs(const Mur m1,const Mur* murs, const int taille) const {
-  for (int i = 0; i < taille; i++) {
-      assert(murs[i].dir != Direction::NONE); /*on ne veut pas de mur de direction NONE dans la liste*/
-      if(m1/murs[i]) return true;
-  }
-  return false;
-}
-
 bool TableauDynamiqueMur::concatenerMur (const Mur m) {
   /*Cas ou concatenation possible en i: on fait l'op en i
     si deuxieme possible en j on fait encore l'op en i puis delete j*/
@@ -145,7 +132,6 @@ bool TableauDynamiqueMur::concatenerMur (const Mur m) {
   }
 
 
-
   if(tempint != -1) return true; /*concaténation efféctuée*/
   return false; /*concaténation non efféctuée*/
 }
@@ -166,13 +152,9 @@ char* TableauDynamiqueMur::toString(unsigned int indice) const
   return str;
 }
 
-void TableauDynamiqueMur::afficherElement (unsigned int indice) const {
-  printf(toString(indice));
-}
-
-void TableauDynamiqueMur::afficher () const {
-  for(unsigned int i = 0; i < taille_utilisee; i++) {
-      afficherElement(i);
+void TableauDynamiqueMur::afficher() const {
+  for (unsigned int i = 0; i < taille_utilisee; i++) {
+    printf("%s", toString(i));
   }
 }
 

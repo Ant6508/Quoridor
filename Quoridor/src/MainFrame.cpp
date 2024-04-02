@@ -1,3 +1,4 @@
+#pragma once
 #include "MainFrame.h"
 #include <string>
 
@@ -82,11 +83,11 @@ bool MainFrame::afficherImagePNG(const wxString& filename, const vec2<int> pos) 
 void MainFrame::initPionsUI(const int taille) 
 {
     wxString filename;
-    filename = "data/J0.png";
+    filename = "D:/Travail/2023-2024/S2/info/LIFAPCD/Projet/Quoridor/data/J0.png";
     int yinit = (int) (taille / 2);
     afficherImagePNG(filename, vec2<int>(0, yinit));
 
-    filename = "data/J1.png";
+    filename = "D:/Travail/2023-2024/S2/info/LIFAPCD/Projet/Quoridor/data/J1.png";
     afficherImagePNG(filename, vec2<int>(taille-1, yinit));
 
     
@@ -97,7 +98,7 @@ void MainFrame::effacerPion(const vec2<int> pos) const
     wxClientDC dc(panelBoard);
     dc.SetBrush(wxColour(200, 200, 200));   
     dc.SetPen(wxColour(200, 200, 200));
-    dc.DrawRectangle(wxRect(pos.x*sizecase+1, pos.y*sizecase+1, sizecase-epaissTraits, sizecase-epaissTraits));
+    dc.DrawRectangle(wxRect(pos.x*sizecase+1, pos.y*sizecase+1, sizecase-2, sizecase-2));
 }
 
 void MainFrame::deplacerPion(const vec2<int> oldpos, const vec2<int> newpos ,const Pion& joueur) const
@@ -105,7 +106,7 @@ void MainFrame::deplacerPion(const vec2<int> oldpos, const vec2<int> newpos ,con
     int idjoueur = (joueur.ID == TypeOccupant::J1) ? 0 : 1;
 
     wxString filename;
-    filename = "data/J" + std::to_string(idjoueur) + ".png";
+    filename = "D:/Travail/2023-2024/S2/info/LIFAPCD/Projet/Quoridor/data/J" + std::to_string(idjoueur) + ".png";
     
     bool affiche = afficherImagePNG(filename, newpos);
 
@@ -116,23 +117,23 @@ void MainFrame::deplacerPion(const vec2<int> oldpos, const vec2<int> newpos ,con
 }
 
 
-void MainFrame::afficherMur(const Mur m, wxColour c) const
+void MainFrame::afficherMur(const Mur m, const wxColour c,int epaisseur) const
 {
     wxClientDC dc(panelBoard);
 
     // declarer le pen
-    dc.SetPen(wxPen(c, 2)); 
+    dc.SetPen(wxPen(c, epaisseur)); 
 
     dc.DrawLine(m.Tail.x*50, m.Tail.y*50, m.Head.x*50, m.Head.y*50);
 
 }
 
 
-void MainFrame::surlignerCase(const vec2<int> pos) const
+void MainFrame::surlignerCase(const vec2<int> pos,wxColour c) const
 {
     wxClientDC dc(panelBoard);
-    dc.SetBrush(wxColour(0, 0, 250));   
-    dc.SetPen(wxColour(0, 0, 250));
+    dc.SetBrush(c);
+    dc.SetPen(c);
     dc.DrawRectangle(wxRect(pos.x*sizecase+1, pos.y*sizecase+1, sizecase-epaissTraits, sizecase-epaissTraits));
 }
 
@@ -143,7 +144,7 @@ void MainFrame::afficherCoupBoard(const coup& c,const Pion& joueur) const
         deplacerPion( joueur.caseCourante.position, c.newpos, joueur);
     }
     else if(c.type == typeCoup::MUR) {
-        afficherMur(c.mur, wxColour(0, 0, 250));
+        afficherMur(c.mur, wxColour(0, 0, 250) , 4);
     }
 }
 

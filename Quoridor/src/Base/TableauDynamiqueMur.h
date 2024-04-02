@@ -1,6 +1,6 @@
-/* Le module TableauDynamiqueMur va gérer un tableau dynamique de murs.
+/* Le module TableauDynamiqueMur met en place un tableau dynamique de murs.
 Cette classe va permettre de gérer les murs du jeu Quoridor qui sont surement les éléments les plus importants du jeu.
-Cette classe provient du code utilisé et TD mais a été largement modifiée pour s'adapter au jeu.
+Cette classe provient du code utilisé en TD mais a été largement modifiée pour s'adapter au jeu et traiter les les objets que sont les murs.
 */
 
 #ifndef TABLEAUDYNAMIQUEMUR_H__
@@ -10,6 +10,7 @@ Cette classe provient du code utilisé et TD mais a été largement modifiée po
 #include "vec2.h"
 
 enum class Direction {HORIZONTAL, VERTICAL, NONE};
+/*Directions possiles pour un Mur, none etant la dir invalide*/
 
 struct Mur
 {
@@ -57,27 +58,23 @@ public:
     /* Postcondition : l'élément e est ajouté dans le premier emplacement inutilisé du tableau,
                        la taille est incrémentée de 1. Doublement de la capacité si nécessaire. */
 
-    bool croiserListeMurs(const Mur m1,const Mur* murs, const int taille) const;
 
     bool concatenerMur (Mur m);
-    /* Algo : On cherche pour tous les murs présents dans le tableau si une concatenation bout-a-bout est possible */
+    /* Algo : On cherche pour tous les murs présents dans le tableau si une concatenation bout-a-bout est possible
+                 on essayera toujours de faire une triple concatenation */
     /*Postcondition : Le mur est soit un nouvelle élément à part entière dans le tableau dynamique
-                    soit le mur a été concaténé avec un autre mur du TDM*/
+                    soit le mur a été concaténé avec un ou deux autre mur du TDM*/
     /*Resultat : false si ajout classique true si concatenation*/
 
     Mur valeurIemeElement (unsigned int indice) const;
     /* Precondition : 0 <= indice < taille_utilisee */
-    /* Resultat : retourne l'Mur à l'indice en paramètre */
+    /* Resultat : retourne le Mur à l'indice en paramètre */
 
     char* toString(unsigned int indice) const;
-
-    void afficherElement (unsigned int indice) const;
     /* Precondition : 0 <= indice < taille_utilisee */
-    /* Postcondition : l'Mur à l'indice en paramètre est affiché sur la sortie standard */
+    /* Resultat : retourne une chaine de caractère représentant le Mur à l'indice en paramètre */
 
-    void afficher () const;
-    /* Postcondition : tous les éléments du tableau sont affichés sur la sortie standard */
-
+    void afficher() const;
 
 private:
 

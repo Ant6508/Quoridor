@@ -19,19 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\..\..\temp\src\App.h" />
-    <ClInclude Include="..\..\..\..\..\..\..\..\temp\src\Base\Partie.h" />
-    <ClInclude Include="..\..\..\..\..\..\..\..\temp\src\Base\vec2.h" />
-    <ClInclude Include="..\..\..\..\..\..\..\..\temp\src\MainFrame.h" />
+    <ClCompile Include="..\src\App.cpp" />
+    <ClCompile Include="..\src\Base\Partie.cpp" />
+    <ClCompile Include="..\src\MainFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\..\..\temp\src\App.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\..\..\temp\src\Base\Partie.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\..\..\temp\src\MainFrame.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\..\..\..\..\..\..\..\temp\data\J0.png" />
-    <Image Include="..\..\..\..\..\..\..\..\temp\data\J1.png" />
+    <ClInclude Include="..\src\App.h" />
+    <ClInclude Include="..\src\Base\Partie.h" />
+    <ClInclude Include="..\src\Base\vec2.h" />
+    <ClInclude Include="..\src\MainFrame.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -1,3 +1,4 @@
+#pragma once
 #include "App.h"
 
 wxIMPLEMENT_APP(App);
@@ -6,7 +7,7 @@ wxIMPLEMENT_APP(App);
 bool App::OnInit() {
 
 
-	mainFrame = new MainFrame("Quoridor UI");
+	mainFrame = new MainFrame("Quoridor UIs");
 
 	mainFrame->SetClientSize(800, 450);
 	mainFrame->Center();
@@ -100,10 +101,7 @@ void App::jouerCoupBoard(const string s)
 		string id = (partie->coupCourant % 2 == 0) ? "J1" : "J2";
 		if(partie->gagnant(p.ID)) wxMessageBox("Gagnant : " + id);
 	}
-	else
-	{
-		wxMessageBox("Coup invalide");
-	}
+	
 }
 
 void App::onButtonJouerCoup(wxCommandEvent& event)
@@ -126,7 +124,7 @@ void App::afficherVoisinesPion(const Pion& joueur) const
 	{
 		if(voisines[i].valide && voisines[i].Occupant == TypeOccupant::Vide && partie->deplacementValide(joueur,voisines[i].position))
 		{
-			mainFrame->surlignerCase(voisines[i].position);
+			mainFrame->surlignerCase(voisines[i].position, wxColour(100, 100, 250));
 		}
 	}
 }
@@ -138,7 +136,7 @@ void App::effacerVoisinesPion(const Pion& joueur) const
 
 	for(int i = 0; i < 4; i++)
 	{
-		if(voisines[i].valide && voisines[i].Occupant == TypeOccupant::Vide)
+		if(voisines[i].valide && voisines[i].Occupant == TypeOccupant::Vide && partie->deplacementValide(joueur,voisines[i].position))
 		{
 			mainFrame->effacerPion(voisines[i].position);
 			
@@ -185,6 +183,13 @@ void App::onleftClickBoard(wxMouseEvent& event)
 		voisinsSelected = true;
 	}
 
+	if(murSelected) {
+		
+		if(murTemp.dir != Direction::NONE) mainFrame->afficherMur(murTemp, wxColour(0, 0, 0), 2);
+		murTemp.dir = Direction::NONE;
+		murSelected = false;
+	}
+
 }
 
 void App::onRightClickBoard(wxMouseEvent& event)
@@ -218,7 +223,7 @@ void App::onEventPlacerMur()
 
 	if(murSelected) {
 		murSelected = false;
-		if(murTemp.dir != Direction::NONE) mainFrame->afficherMur(murTemp, wxColour(0, 0, 0));
+		if(murTemp.dir != Direction::NONE) mainFrame->afficherMur(murTemp, wxColour(0, 0, 0), 2);
 		
 		}
 	else murSelected = true;
@@ -240,8 +245,11 @@ void App::onMouseMoveBoard(wxMouseEvent& event)
 		Direction tempdir = Direction::HORIZONTAL;	
 		murTemp.dir = tempdir;
 	}
-	else mainFrame->afficherMur(murTemp, wxColour(0, 0, 0));
+	else {
+	mainFrame->afficherMur(murTemp, wxColour(0, 0, 0) , 2);	
 
+	}
+	
 	vec2<int> delta;
 	if (murTemp.dir == Direction::HORIZONTAL) delta.x = 2;	
 	else delta.y = 2;
@@ -251,7 +259,7 @@ void App::onMouseMoveBoard(wxMouseEvent& event)
 
 	bool murValide = partie->murValide(murTemp);
 
-	if (murValide) mainFrame->afficherMur(murTemp, wxColour(0, 0, 250));
+	if (murValide) mainFrame->afficherMur(murTemp, wxColour(0, 0, 250),2);
 	else murTemp.dir = Direction::NONE;
 
 
@@ -295,7 +303,8 @@ void App::wxAfficherInfotdm() const
 
 void App::wxAfficherMurtemp() const
 {
-	wxMessageBox("test");
+
+
 	return;
 	if(partieInit) return;
 	if(murTemp.dir == Direction::NONE) return;

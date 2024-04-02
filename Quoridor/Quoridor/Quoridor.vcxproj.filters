@@ -15,36 +15,28 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\..\..\temp\src\App.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\..\temp\src\MainFrame.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\..\temp\src\Base\Partie.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\..\temp\src\Base\vec2.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\..\..\temp\src\App.cpp">
+    <ClCompile Include="..\src\Base\Partie.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\..\..\temp\src\MainFrame.cpp">
+    <ClCompile Include="..\src\MainFrame.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\..\..\temp\src\Base\Partie.cpp">
+    <ClCompile Include="..\src\App.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\..\..\..\temp\data\J0.png">
-      <Filter>Fichiers de ressources</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\..\..\..\temp\data\J1.png">
-      <Filter>Fichiers de ressources</Filter>
-    </Image>
+    <ClInclude Include="..\src\App.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MainFrame.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Base\Partie.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Base\vec2.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

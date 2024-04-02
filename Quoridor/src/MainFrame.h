@@ -1,6 +1,6 @@
 #pragma once
 #include <wx\wx.h>
-//#include "Base\Partie.h"
+#include "Base\Partie.h"
 #include <wx/overlay.h>
 #include <wx/dcclient.h>
 
@@ -59,10 +59,10 @@ public:
     void deplacerPion(const vec2<int> oldpos, const vec2<int> newpos  ,const Pion& joueur) const;
     /*Algo : efface le pion à oldpos et dessine le pion à newpos*/
 
-    void afficherMur(const Mur, wxColour c) const;
+    void afficherMur(const Mur, wxColour c, int epaisseur) const;
     /*Algo : dessine un mur sur le board*/
 
-    void surlignerCase(const vec2<int> pos) const;
+    void surlignerCase(const vec2<int> pos,wxColour c) const;
     /*affiche la case pos en bleu*/
 
     void afficherCoupBoard(const coup& c,const Pion& joueur) const;

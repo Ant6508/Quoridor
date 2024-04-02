@@ -43,9 +43,6 @@ class Partie
         void initPions();/*Déclare et positionne sur le board les 2 pions*/
 
         /*fonctions pour les murs*/
-        Mur* getMursbyDir(const Direction dir) const;
-        Mur* getMursbyX(const int x) const;
-        Mur* getMursbyY(const int y) const;
         bool murValide(const Mur& m) const;
         bool rencontreMur(const Pion& joueur, const Mur& m, const vec2<int> newpos) const;
 
