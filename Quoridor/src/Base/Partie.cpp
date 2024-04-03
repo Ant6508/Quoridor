@@ -11,6 +11,14 @@
 
 using namespace std;
 
+Partie::Partie()
+{
+    board.Cases = new MatriceCases(1);
+    board.tabdMur = new TableauDynamiqueMur();
+    coupCourant = 0;
+    taille = 0;
+};
+
 Partie::Partie(int Taille)
 {
     board.Cases = new MatriceCases(Taille);
@@ -24,14 +32,7 @@ Partie::Partie(int Taille)
 Partie::~Partie()
 {
 
-    delete [] board.tabdMur;
-    board.tabdMur = NULL;
 
-    for(int i = 0; i < taille; i++){
-        delete [] board.Cases->Cases[i];
-    }
-    delete [] board.Cases->Cases;
-    board.Cases = NULL;
 };
 
 void Partie::initPions(){
@@ -128,7 +129,7 @@ bool Partie::murValide(const Mur& m) const {
 
 
     /*3)verifier si il ne chevauche pas un autre mur*/
-    for (int i = 0; i < board.tabdMur->taille_utilisee; i++)
+    for (int unsigned i = 0; i < board.tabdMur->taille_utilisee; i++)
     {
         Mur m2 = board.tabdMur->valeurIemeElement(i);
         if(m/m2 || m2/m) return false;
@@ -192,7 +193,8 @@ bool Partie::deplacementValide(const Pion& joueur, vec2<int> newpos) const{
     return true;
 };
 
-bool Partie::coupValide(coup c, const Pion& joueur) const{
+bool Partie::coupValide(const coup &c, const Pion& joueur) const
+{
     /*un coup est valide ssi : il est de type deplacement et que le deplacement est valide ou que c est un mur et que le mur est valide*/
     if(c.type == typeCoup::DEPLACEMENT){
         return deplacementValide(joueur, c.newpos);
@@ -205,7 +207,8 @@ bool Partie::coupValide(coup c, const Pion& joueur) const{
     }
 };
 
-void Partie::deplacerPion (Pion& joueur, const vec2<int> newpos){
+void Partie::deplacerPion (Pion& joueur, const vec2<int> newpos)
+{
     board.Cases->SetCaseOccupant(joueur.caseCourante.position,TypeOccupant::Vide); /*On met vide sur la case courrante*/
     joueur.caseCourante = board.Cases->getCase(newpos); /*On change la case courrante du joueur*/
     board.Cases->SetCaseOccupant(newpos,joueur.ID); /*on met a jour la board*/
@@ -213,29 +216,18 @@ void Partie::deplacerPion (Pion& joueur, const vec2<int> newpos){
 
 void Partie::jouerCoup(const coup& c, Pion& joueur){
     /*on joue un coup en fonction de son type*/
+
+    if(!coupValide(c, joueur)) return;
+
     if(c.type == typeCoup::DEPLACEMENT){
-        bool possible = deplacementValide(joueur, c.newpos);
-        if(possible){
-            deplacerPion(joueur, c.newpos);
-            coupCourant++;
-        }
-        else{
-            printf("deplacement invalide\n");
-        }
+        deplacerPion(joueur, c.newpos);
+        coupCourant++;
     }
-    else if(c.type == typeCoup::MUR){
-        if(murValide(c.mur)){
-            if (board.tabdMur->concatenerMur(c.mur));
-            else board.tabdMur->ajouterElement(c.mur);
-            joueur.nbMur--;
-            coupCourant++;
-        }
-        else{
-            printf("Mur invalide\n");
-        }
-    }
-    else{
-        printf("coup invalide\n");
+    else if(c.type == typeCoup::MUR && joueur.nbMur > 0){   
+        if (board.tabdMur->concatenerMur(c.mur));
+        else board.tabdMur->ajouterElement(c.mur);
+        joueur.nbMur--;
+        coupCourant++;
     }
 };
 

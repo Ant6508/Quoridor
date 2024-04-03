@@ -15,15 +15,19 @@ bool App::OnInit() {
 
 
 	/*Bind des fonctions membres de App sur un boutton de la classe MainFrame avec lambda*/
+
+	/*fonctions pour les différents boutons de la fenetre*/
 	mainFrame->initPartieButton->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event) {onButtonInitPartie(event);});
 	mainFrame->JouerCoup_Button->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event) {onButtonJouerCoup(event);});
-
-	mainFrame->panelBoard->Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent& event) {onleftClickBoard(event);});
-	
-	mainFrame->panelBoard->Bind(wxEVT_MOTION, [this](wxMouseEvent& event) {onMouseMoveBoard(event);});
-	mainFrame->panelBoard->Bind(wxEVT_RIGHT_DOWN, [this](wxMouseEvent& event) {onRightClickBoard(event);});
 	mainFrame->afficherMurs_Button->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event) {wxAfficherInfotdm();});
-	mainFrame->Bind(wxEVT_CHAR_HOOK, [this](wxKeyEvent& event) {onKeyPressBoard(event);});
+
+	/*fonctions pour les inputs souris*/
+	mainFrame->panelBoard->Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent& event) {onleftClickBoard(event);});
+	mainFrame->panelBoard->Bind(wxEVT_RIGHT_DOWN, [this](wxMouseEvent& event) {onRightClickBoard(event);});
+	mainFrame->panelBoard->Bind(wxEVT_MOTION, [this](wxMouseEvent& event) {onMouseMoveBoard(event);});
+	
+	mainFrame->Bind(wxEVT_CHAR_HOOK, [this](wxKeyEvent& event) {onKeyPressBoard(event);}); /*bind pour un appui de touche*/
+	mainFrame->Bind(wxEVT_CLOSE_WINDOW, [this](wxCloseEvent& event) {OnExit(event);}); /*bind pour la fermeture de la fenetre*/
 	return true;
 
 		 
@@ -127,6 +131,10 @@ void App::afficherVoisinesPion(const Pion& joueur) const
 			mainFrame->surlignerCase(voisines[i].position, wxColour(100, 100, 250));
 		}
 	}
+
+	/*supprimer la liste des voisines pour eviter un mem leak...*/
+	delete[] voisines;
+	voisines = NULL;
 }
 
 void App::effacerVoisinesPion(const Pion& joueur) const
@@ -139,11 +147,12 @@ void App::effacerVoisinesPion(const Pion& joueur) const
 		if(voisines[i].valide && voisines[i].Occupant == TypeOccupant::Vide && partie->deplacementValide(joueur,voisines[i].position))
 		{
 			mainFrame->effacerPion(voisines[i].position);
-			
 		}
 	}
+	/*supprimer la liste des voisines pour eviter un mem leak...*/
+	delete[] voisines;
+	voisines = NULL;
 }
-
 
 void App::onleftClickBoard(wxMouseEvent& event)
 {
@@ -173,9 +182,12 @@ void App::onleftClickBoard(wxMouseEvent& event)
 			{
 				string s = "D" + to_string(voisines[i].position.x) + to_string(voisines[i].position.y);
 				jouerCoupBoard(s);
-				return;
+				break;
 			}
 		}
+		/*supprimer la liste des voisines pour eviter un mem leak...*/
+		delete[] voisines;
+		voisines = NULL;
 		return; 
 	}
 	else{
@@ -224,7 +236,6 @@ void App::onEventPlacerMur()
 	if(murSelected) {
 		murSelected = false;
 		if(murTemp.dir != Direction::NONE) mainFrame->afficherMur(murTemp, wxColour(0, 0, 0), 2);
-		
 		}
 	else murSelected = true;
 }
@@ -282,7 +293,6 @@ void App::onKeyPressBoard(wxKeyEvent& event)
 	event.Skip();
 }
 
-
 void App::wxAfficherInfoMur(unsigned int indice) const
 {
 	if(!partieInit) return;
@@ -290,6 +300,9 @@ void App::wxAfficherInfoMur(unsigned int indice) const
 	char* str = new char[100];
 	str = partie->board.tabdMur->toString(indice);
 	wxMessageBox(str);
+
+	delete [] str;
+	str = NULL;
 }
 
 void App::wxAfficherInfotdm() const
@@ -311,4 +324,12 @@ void App::wxAfficherMurtemp() const
 	char* str = new char[100];
 	sprintf_s(str, 100, "Mur temp : Taille : (%d,%d) Head : (%d,%d) Direction : %d\n", murTemp.Tail.x, murTemp.Tail.y, murTemp.Head.x, murTemp.Head.y, murTemp.dir);
 	wxMessageBox(str);
+	delete [] str;
+	str = NULL;
+}
+
+void App::OnExit(wxCloseEvent& event)
+{
+	
+	event.Skip();
 }

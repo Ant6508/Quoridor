@@ -36,7 +36,8 @@ public:
     Case **Cases; //Tableau carré 2D de cases de taille Taille
 
     /*constructeurs & destructeur*/
-    MatriceCases(int taille); // Constructeur par défaut
+
+    MatriceCases(int taille); 
     ~MatriceCases();
 
     /*fonctions membres*/

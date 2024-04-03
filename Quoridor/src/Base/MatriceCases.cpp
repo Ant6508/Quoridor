@@ -25,7 +25,6 @@ MatriceCases::MatriceCases(int taille)
             //creer le vec2 de coordonnées i,j sur la pile (renouvelé à chaque tour de boucle)
             vec2<int> pos(i, j);
             Cases[i][j].position = pos;
-
             Cases[i][j].Occupant = TypeOccupant::Vide;
         }
     }
@@ -36,6 +35,7 @@ MatriceCases::~MatriceCases()
     for (int i = 0; i < Taille; i++)
     {
         delete[] Cases[i];
+        Cases[i] = NULL;
     }
     delete[] Cases;
     Cases = NULL;
@@ -50,18 +50,15 @@ void MatriceCases::SetCaseOccupant(const vec2<int> pos, const TypeOccupant occup
     Cases[pos.x][pos.y].Occupant = occupant;
 }
 
-Case MatriceCases::getCase(const vec2<int> pos) const{
-/*Fonction type getter qui renvoie la case à la position pos*/
-/*Précondition: la position ne sort pas du board*/
-/*Postcondition: la case renvoyée est valide et est une copie de la case du board*/
-
+Case MatriceCases::getCase(const vec2<int> pos) const
+{
     assert(pos.max() < Taille && pos.min() >= 0);
     return Cases[pos.x][pos.y];
 }
 
 
-Case* MatriceCases::GetVoisins(const Case &c) const {
-
+Case* MatriceCases::GetVoisins(const Case &c) const 
+{
     assert(c.valide);
 
     Case *voisins = new Case [4];

@@ -1,5 +1,10 @@
+/*Classe de la mainFrame qui est parente de tous les widgets visibles nottaments les boutons et le panel du board
+elle n'a jamais accès à un objet Partie
+*/
+
+
 #pragma once
-#include <wx\wx.h>
+#include <wx/wx.h>
 #include "Base\Partie.h"
 #include <wx/overlay.h>
 #include <wx/dcclient.h>
@@ -68,5 +73,6 @@ public:
     void afficherCoupBoard(const coup& c,const Pion& joueur) const;
     /*deplace l'icône du joueur ou place un mur le board*/
 
+    void OnCloseWindow(wxCloseEvent& event);
 
 };

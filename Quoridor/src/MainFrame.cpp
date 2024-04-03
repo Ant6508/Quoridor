@@ -6,6 +6,7 @@
 MainFrame::MainFrame(const wxString& title): wxFrame(nullptr, wxID_ANY, title) {
 /*instancie tous les widgets de la fenetre*/
 
+    wxInitAllImageHandlers(); /*Initialisation des handlers pour les images*/
 
     panelMain = new wxPanel(this); /*Panel principal de la fenetre */
 
@@ -41,7 +42,6 @@ Partie* MainFrame::initPartie(const int taille) {
 
 void MainFrame::initBoardUI(const int taille){
     
-    wxInitAllImageHandlers(); /*Initialisation des handlers pour les images*/
 
     wxClientDC dc(panelBoard);
 

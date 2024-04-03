@@ -58,13 +58,12 @@ public:
     /* Postcondition : l'élément e est ajouté dans le premier emplacement inutilisé du tableau,
                        la taille est incrémentée de 1. Doublement de la capacité si nécessaire. */
 
-
     bool concatenerMur (Mur m);
     /* Algo : On cherche pour tous les murs présents dans le tableau si une concatenation bout-a-bout est possible
                  on essayera toujours de faire une triple concatenation */
     /*Postcondition : Le mur est soit un nouvelle élément à part entière dans le tableau dynamique
                     soit le mur a été concaténé avec un ou deux autre mur du TDM*/
-    /*Resultat : false si ajout classique true si concatenation*/
+    /*Resultat : false aucune concatenation n'a été possible, true si un ou deux élements ont été concaténés*/
 
     Mur valeurIemeElement (unsigned int indice) const;
     /* Precondition : 0 <= indice < taille_utilisee */
@@ -75,10 +74,13 @@ public:
     /* Resultat : retourne une chaine de caractère représentant le Mur à l'indice en paramètre */
 
     void afficher() const;
+    /*affiche tous les éléments du tableau avec tostring*/
 
 private:
 
     /* fonctions membres */
+    /* ================= */
+    
     void modifierValeurIemeElement (Mur e, unsigned int indice);
     /* Precondition : 0 <= indice < taille_utilisee */
     /* Postcondition : l'Mur à l'indice en paramètre vaut e */

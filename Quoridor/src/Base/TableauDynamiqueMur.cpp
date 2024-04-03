@@ -8,6 +8,8 @@
 using namespace std;
 
 
+/*Opérateurs de murs*/
+
 Mur Mur::operator +(const Mur m2)  {
   /*Opérateur de concaténation de deux murs bout à bout*/
   /*Resulat : un mur qui est la concaténation des deux murs quand c'est possible
@@ -29,7 +31,6 @@ Mur Mur::operator +(const Mur m2)  {
     
     return m;
 };
-
 
 bool Mur::operator /(const Mur m2) const {
   /*Opérateur de croisement de deux murs*/
@@ -59,6 +60,9 @@ bool Mur::operator ==(const Mur m2) const {
   return (Tail == m2.Tail && Head == m2.Head);
 }
 
+
+/*PUBLIC TDM*/
+
 TableauDynamiqueMur::TableauDynamiqueMur () {
 
   ad = new Mur [1]; //pointeur générique vers un mur
@@ -70,7 +74,7 @@ TableauDynamiqueMur::TableauDynamiqueMur (const TableauDynamiqueMur & t) { //con
   ad = new Mur [t.capacite];
   capacite = t.capacite;
   taille_utilisee = t.taille_utilisee;
-  for (unsigned int i = 0; i < t.taille_utilisee; i++) ad[i] = t.ad[i];
+  for (int i = 0; i < t.taille_utilisee; i++) ad[i] = t.ad[i];
 }
 
 TableauDynamiqueMur::~TableauDynamiqueMur () {
@@ -119,7 +123,7 @@ bool TableauDynamiqueMur::concatenerMur (const Mur m) {
     if(m.dir==ad[i].dir && ( ad[i].Tail == m.Head || ad[i].Head==m.Tail )) { /*par construction on au plus 2 fois cette condition */
       
       if( tempint != -1) { /*cas ou on a déjà eu un candidat*/
-        ad[tempint] = ad[tempint] + ad[i]; /*concaténation*/  
+        modifierValeurIemeElement(ad[i] + m, tempint); /*concaténation des deux murs*/ 
         supprimerElement(i); /*suppression de l'élément concaténé*/
         return true;
       }
@@ -140,9 +144,6 @@ Mur TableauDynamiqueMur::valeurIemeElement (unsigned int indice) const {
   return ad[indice];
 }
 
-void TableauDynamiqueMur::modifierValeurIemeElement (Mur e, unsigned int indice) {
-  ad[indice] = e;
-}
 
 char* TableauDynamiqueMur::toString(unsigned int indice) const 
 {
@@ -156,6 +157,12 @@ void TableauDynamiqueMur::afficher() const {
   for (unsigned int i = 0; i < taille_utilisee; i++) {
     printf("%s", toString(i));
   }
+}
+
+/*PRIVATE TDM*/
+
+void TableauDynamiqueMur::modifierValeurIemeElement (Mur e, unsigned int indice) {
+  ad[indice] = e;
 }
 
 void TableauDynamiqueMur::supprimerElement (unsigned int indice) {

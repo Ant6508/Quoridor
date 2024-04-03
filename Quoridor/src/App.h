@@ -79,4 +79,6 @@ public:
 	void wxAfficherInfotdm() const;
 
 	void wxAfficherMurtemp() const;
+
+	void OnExit(wxCloseEvent& event);
 };
