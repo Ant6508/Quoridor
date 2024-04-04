@@ -1,13 +1,28 @@
-
+/*Comme Partie constitue la base du jeu: pas de printf hors des fonctions afficher...*/
 
 #ifndef __PARTIE_H__
 #define __PARTIE_H__
 
-#include "MatriceCases.h"
 #include "TableauDynamiqueMur.h"
+
+#include <string>
+using namespace std;
+
+enum class TypeOccupant
+/*Permet de savoir quel joueur se trouve sur la case*/
+{
+    Vide=-1,J1=0,J2=1, J3=2, J4=3
+     /*Pour jouer à 3/4 ou plus il faudra agrandir cette énumération*/
+};
+
+struct Case
+/*Représente une case du board*/
+{
+    bool valide = true;
+    vec2<int> position; 
+};
 struct Board{
-    TableauDynamiqueMur* tabdMur = nullptr;
-    MatriceCases* Cases = nullptr;
+    TableauDynamiqueMur tabdMur;
 };
 struct Pion{
     Case caseCourante; 
@@ -29,10 +44,10 @@ class Partie
 
         /*Données membres publiques*/
         Board board;
-        Pion joueur1;
-        Pion joueur2;
+        Pion* joueurs;
         int coupCourant;    
         int taille;
+        int nbJoueurs=2;
 
 
         /*Fonctions membres publiques*/
@@ -41,6 +56,11 @@ class Partie
         ~Partie();
 
         void initPions();/*Déclare et positionne sur le board les 2 pions*/
+        TypeOccupant idOfPos(const vec2<int> pos) const;
+        Pion& JoueurOfPos(const vec2<int> pos) const;
+        /*Précondition: la position pos nest pas vide*/
+
+        Pion& JoueurOfTour() const;
 
         /*fonctions pour les murs*/
         bool murValide(const Mur& m) const;
@@ -49,6 +69,10 @@ class Partie
         /*fonctions pour les deplacements*/
         bool deplacementValide(const Pion& joueur,const vec2<int> pos) const;
         void deplacerPion(Pion& joueur, const vec2<int> pos); /*fonction type setter donc pas de const*/
+
+        Case* GetVoisins(const Case &c) const; // Renvoie les voisins de la case c
+        /*Précondition: la case c est valide*/
+        /*Postcondition: le tableau renvoyé contient 4 cases, les cases non valides sont marquées comme telles*/
 
  
         /*fonctions pour les coups*/
@@ -71,14 +95,13 @@ class Partie
         
         void afficherJoueur(const Pion& joueur) const;
 
-        void afficherPartie(const bool verboseCases) const; /*VerboseCases permet d'afficher les cases du board ou non*/
+        void afficherPartie() const; 
 
         /*fonctions pour la fin de partie*/
         bool partieTerminee() const;
         bool gagnant(const TypeOccupant joueur) const;
 
-        void jouerConsole();
-
+        char * StringofPion(const Pion& p) const;
 
 };
 

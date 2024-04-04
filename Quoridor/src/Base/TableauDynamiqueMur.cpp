@@ -74,7 +74,7 @@ TableauDynamiqueMur::TableauDynamiqueMur (const TableauDynamiqueMur & t) { //con
   ad = new Mur [t.capacite];
   capacite = t.capacite;
   taille_utilisee = t.taille_utilisee;
-  for (int i = 0; i < t.taille_utilisee; i++) ad[i] = t.ad[i];
+  for (unsigned int i = 0; i < t.taille_utilisee; i++) ad[i] = t.ad[i];
 }
 
 TableauDynamiqueMur::~TableauDynamiqueMur () {
@@ -116,7 +116,7 @@ bool TableauDynamiqueMur::concatenerMur (const Mur m) {
   /*Cas ou concatenation possible en i: on fait l'op en i
     si deuxieme possible en j on fait encore l'op en i puis delete j*/
 
-  unsigned tempint = -1; /*flag sur pile concatenation simple possible? -1 si non >0 si oui */
+  unsigned int tempint = -1; /*flag sur pile concatenation simple possible? -1 si non >0 si oui */
 
   for (unsigned int i = 0; i < taille_utilisee; i++) {
 
@@ -135,7 +135,6 @@ bool TableauDynamiqueMur::concatenerMur (const Mur m) {
     }
   }
 
-
   if(tempint != -1) return true; /*concaténation efféctuée*/
   return false; /*concaténation non efféctuée*/
 }
@@ -143,7 +142,6 @@ bool TableauDynamiqueMur::concatenerMur (const Mur m) {
 Mur TableauDynamiqueMur::valeurIemeElement (unsigned int indice) const {
   return ad[indice];
 }
-
 
 char* TableauDynamiqueMur::toString(unsigned int indice) const 
 {

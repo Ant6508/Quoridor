@@ -1,5 +1,9 @@
 #pragma once
 #include "App.h"
+#include <iostream>
+
+#include <string>
+using namespace std;
 
 wxIMPLEMENT_APP(App);
 
@@ -19,7 +23,7 @@ bool App::OnInit() {
 	/*fonctions pour les différents boutons de la fenetre*/
 	mainFrame->initPartieButton->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event) {onButtonInitPartie(event);});
 	mainFrame->JouerCoup_Button->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event) {onButtonJouerCoup(event);});
-	mainFrame->afficherMurs_Button->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event) {wxAfficherInfotdm();});
+	mainFrame->afficherMurs_Button->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event) {wxAfficherInfotdm(event);});
 
 	/*fonctions pour les inputs souris*/
 	mainFrame->panelBoard->Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent& event) {onleftClickBoard(event);});
@@ -66,67 +70,58 @@ void App::updatejeuUI(){
 
 
 	/*update les positions des joueurs*/
-	string s = "J1 : (" + to_string(partie->joueur1.caseCourante.position.x) + "," + to_string(partie->joueur1.caseCourante.position.y) + ")";
+	string s = "J1 : (" + to_string(partie->joueurs[0].caseCourante.position.x) + "," + to_string(partie->joueurs[0].caseCourante.position.y) + ")";
 	mainFrame->J1StaticText->SetLabel(s);
 
-	string s2  = "J2 : (" + to_string(partie->joueur2.caseCourante.position.x) + "," + to_string(partie->joueur2.caseCourante.position.y) + ")";
+	string s2  = "J2 : (" + to_string(partie->joueurs[1].caseCourante.position.x) + "," + to_string(partie->joueurs[1].caseCourante.position.y) + ")";
 	mainFrame->J2StaticText->SetLabel(s2);
 	
-	mainFrame->J1MursStaticText->SetLabel("Murs : " + to_string(partie->joueur1.nbMur));
+	mainFrame->J1MursStaticText->SetLabel("Murs : " + to_string(partie->joueurs[0].nbMur));
 
-	mainFrame->J2MursStaticText->SetLabel("Murs : " + to_string(partie->joueur2.nbMur));
+	mainFrame->J2MursStaticText->SetLabel("Murs : " + to_string(partie->joueurs[1].nbMur));
 }
 
 void App::onButtonInitPartie(wxCommandEvent& event)
 {
 	
 	initPartieUI(9);
-	if (partieInit) delete partie;
-	partie = mainFrame->initPartie(9);
+	partie = new Partie(9);
 
 	initJeuUI(9);
 	partieInit = true;
-
-	murTemp.dir = Direction::NONE;
 	
 }
 
 void App::jouerCoupBoard(const string s)
 {
 	coup c = partie->coupofString(s);
-	Pion& p = (partie->coupCourant % 2 == 0) ? partie->joueur1 : partie->joueur2; /*passsage en ref sinon pas d'actualisation*/
+	Pion& p = (partie->JoueurOfTour());
 	
 	if(partie->coupValide(c, p))
 	{
-		mainFrame->afficherCoupBoard(c, p);
-		partie->jouerCoup(c, p);
-		updatejeuUI();
-
-		string id = (partie->coupCourant % 2 == 0) ? "J1" : "J2";
-		if(partie->gagnant(p.ID)) wxMessageBox("Gagnant : " + id);
+		mainFrame->afficherCoupBoard(c, p); /*affichage UI sur le board*/
+		partie->jouerCoup(c, p); /*Joueur le coup pour l'objet Partie*/
+		updatejeuUI(); /*update l'UI text*/
 	}
 	
 }
 
 void App::onButtonJouerCoup(wxCommandEvent& event)
 {
-
-	string coupstring = mainFrame->InputCoup_TextCtrl->GetValue().ToStdString();
-	
-	if(voisinsSelected) {effacerVoisinesPion(partie->joueur1) ; effacerVoisinesPion(partie->joueur2); voisinsSelected = false;}
-
-	jouerCoupBoard(coupstring);
+	string coupstring = mainFrame->InputCoup_TextCtrl->GetValue().ToStdString(); /*rècupère le coup présent dans la txtbox*/
+	if(voisinsSelected) {effacerVoisinesPion(partie->JoueurOfTour()); voisinsSelected = false;}
+	jouerCoupBoard(coupstring); /*joue le coup si il est possible*/
 }
 
 void App::afficherVoisinesPion(const Pion& joueur) const
 {
-
 	Case* voisines;
-	voisines = partie->board.Cases->GetVoisins(joueur.caseCourante);
+	voisines = partie->GetVoisins(joueur.caseCourante);
+	if(voisines == nullptr) return; 
 
 	for(int i = 0; i < 4; i++)
 	{
-		if(voisines[i].valide && voisines[i].Occupant == TypeOccupant::Vide && partie->deplacementValide(joueur,voisines[i].position))
+		if(voisines[i].valide && partie->deplacementValide(joueur,voisines[i].position)) /*Couvre donc le cas ou un joueur est présent sur la newcase*/
 		{
 			mainFrame->surlignerCase(voisines[i].position, wxColour(100, 100, 250));
 		}
@@ -140,11 +135,12 @@ void App::afficherVoisinesPion(const Pion& joueur) const
 void App::effacerVoisinesPion(const Pion& joueur) const
 {
 	Case* voisines;
-	voisines = partie->board.Cases->GetVoisins(joueur.caseCourante);
+	voisines = partie->GetVoisins(joueur.caseCourante);
+	if(voisines == nullptr) return; 
 
 	for(int i = 0; i < 4; i++)
 	{
-		if(voisines[i].valide && voisines[i].Occupant == TypeOccupant::Vide && partie->deplacementValide(joueur,voisines[i].position))
+		if(voisines[i].valide && partie->deplacementValide(joueur,voisines[i].position))
 		{
 			mainFrame->effacerPion(voisines[i].position);
 		}
@@ -166,7 +162,8 @@ void App::onleftClickBoard(wxMouseEvent& event)
 	posCase.y = pos.y / mainFrame->sizecase; /*attention pas de double affectation sinon 0 sur y*/
 		
 	/*On recupere le joueur courant*/
-	Pion& p = (partie->coupCourant % 2 == 0) ? partie->joueur1 : partie->joueur2;
+	Pion& p = partie->JoueurOfTour();
+
 
 	if(voisinsSelected){
 		
@@ -174,7 +171,8 @@ void App::onleftClickBoard(wxMouseEvent& event)
 		voisinsSelected = false;
 
 		Case* voisines;
-		voisines = partie->board.Cases->GetVoisins(p.caseCourante);
+		voisines = partie->GetVoisins(p.caseCourante);
+		if(voisines == nullptr) return; /*cas ou la case est invalide (hors board)*/
 		
 		for(int i = 0; i < 4; i++)
 		{	
@@ -191,7 +189,7 @@ void App::onleftClickBoard(wxMouseEvent& event)
 		return; 
 	}
 	else{
-		afficherVoisinesPion(p);
+		afficherVoisinesPion(p); /*pour le joueur dont c'est le tour*/
 		voisinsSelected = true;
 	}
 
@@ -208,7 +206,7 @@ void App::onRightClickBoard(wxMouseEvent& event)
 {
 	if(!partieInit || !murSelected || !partie->murValide(murTemp) ) return;
 
-	if(voisinsSelected) {effacerVoisinesPion(partie->joueur1) ; effacerVoisinesPion(partie->joueur2); voisinsSelected = false;}
+	if(voisinsSelected) {effacerVoisinesPion(partie->JoueurOfTour()); voisinsSelected = false;}
 
 	wxPoint pos = event.GetPosition();
 
@@ -231,7 +229,7 @@ void App::onEventPlacerMur()
 {
 	if(!partieInit) return;
 
-	if(voisinsSelected) {effacerVoisinesPion(partie->joueur1) ; effacerVoisinesPion(partie->joueur2); voisinsSelected = false;}
+	if(voisinsSelected) {effacerVoisinesPion(partie->JoueurOfTour()); voisinsSelected = false;}
 
 	if(murSelected) {
 		murSelected = false;
@@ -296,19 +294,18 @@ void App::onKeyPressBoard(wxKeyEvent& event)
 void App::wxAfficherInfoMur(unsigned int indice) const
 {
 	if(!partieInit) return;
-	if(indice >= partie->board.tabdMur->taille_utilisee) return;
-	char* str = new char[100];
-	str = partie->board.tabdMur->toString(indice);
+	if(indice >= partie->board.tabdMur.taille_utilisee) return;
+	char* str = partie->board.tabdMur.toString(indice);
 	wxMessageBox(str);
 
 	delete [] str;
 	str = NULL;
 }
 
-void App::wxAfficherInfotdm() const
+void App::wxAfficherInfotdm(wxCommandEvent& event) const
 {
 	if(!partieInit) return;
-	for(unsigned int i = 0; i < partie->board.tabdMur->taille_utilisee; i++)
+	for(unsigned int i = 0; i < partie->board.tabdMur.taille_utilisee; i++)
 	{
 		wxAfficherInfoMur(i);
 	}
@@ -316,8 +313,6 @@ void App::wxAfficherInfotdm() const
 
 void App::wxAfficherMurtemp() const
 {
-
-
 	return;
 	if(partieInit) return;
 	if(murTemp.dir == Direction::NONE) return;
@@ -328,8 +323,18 @@ void App::wxAfficherMurtemp() const
 	str = NULL;
 }
 
+void App::wxAfficherInfoPion(const Pion& joueur) const
+{
+	if(!partieInit) return;
+	char* str = partie->StringofPion(joueur);
+	wxMessageBox(str);
+	delete [] str;
+	str = NULL;
+}
+
+
 void App::OnExit(wxCloseEvent& event)
 {
-	
+	delete partie;
 	event.Skip();
 }

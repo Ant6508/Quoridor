@@ -4,7 +4,7 @@
 
 
 MainFrame::MainFrame(const wxString& title): wxFrame(nullptr, wxID_ANY, title) {
-/*instancie tous les widgets de la fenetre*/
+    /*instancie tous les widgets de la fenetre*/
 
     wxInitAllImageHandlers(); /*Initialisation des handlers pour les images*/
 
@@ -30,19 +30,14 @@ MainFrame::MainFrame(const wxString& title): wxFrame(nullptr, wxID_ANY, title) {
 
     JouerCoup_Button = new wxButton(panelJeu, wxID_ANY, "Jouer Le Coup", wxPoint(150, 170), wxSize(100, 50));
 
-    placerMur_Button = new wxButton(panelJeu, wxID_ANY, "Mettre un Mur", wxPoint(0, 230), wxSize(100, 50));
-
     afficherMurs_Button = new wxButton(panelJeu, wxID_ANY, "Afficher les Murs", wxPoint(150, 230), wxSize(100, 50));
 
 }
 
-Partie* MainFrame::initPartie(const int taille) {
-    return new Partie(taille);
-}
 
-void MainFrame::initBoardUI(const int taille){
+void MainFrame::initBoardUI(const int taille)
+{
     
-
     wxClientDC dc(panelBoard);
 
     dc.SetBrush(wxColour(200, 200, 200));  /*Brosse grise*/
@@ -83,11 +78,11 @@ bool MainFrame::afficherImagePNG(const wxString& filename, const vec2<int> pos) 
 void MainFrame::initPionsUI(const int taille) 
 {
     wxString filename;
-    filename = "D:/Travail/2023-2024/S2/info/LIFAPCD/Projet/Quoridor/data/J0.png";
+    filename = "../data/J0.png";
     int yinit = (int) (taille / 2);
     afficherImagePNG(filename, vec2<int>(0, yinit));
 
-    filename = "D:/Travail/2023-2024/S2/info/LIFAPCD/Projet/Quoridor/data/J1.png";
+    filename = "../data/J1.png";
     afficherImagePNG(filename, vec2<int>(taille-1, yinit));
 
     
@@ -103,17 +98,13 @@ void MainFrame::effacerPion(const vec2<int> pos) const
 
 void MainFrame::deplacerPion(const vec2<int> oldpos, const vec2<int> newpos ,const Pion& joueur) const
 {
-    int idjoueur = (joueur.ID == TypeOccupant::J1) ? 0 : 1;
 
     wxString filename;
-    filename = "D:/Travail/2023-2024/S2/info/LIFAPCD/Projet/Quoridor/data/J" + std::to_string(idjoueur) + ".png";
-    
+    filename = "../data/J" + std::to_string((int) joueur.ID) + ".png";
     bool affiche = afficherImagePNG(filename, newpos);
-
     assert(affiche);
 
     effacerPion(oldpos);
-
 }
 
 

@@ -1,57 +1,57 @@
 
-#include <iostream>
-#include <string>
 #include <stdlib.h>
-#include "vec2.h"
 #include <assert.h>
 #include <regex>
 #include "TableauDynamiqueMur.cpp"  
-#include "MatriceCases.cpp"
 #include "Partie.h"
 
 using namespace std;
 
-Partie::Partie()
-{
-    board.Cases = new MatriceCases(1);
-    board.tabdMur = new TableauDynamiqueMur();
-    coupCourant = 0;
-    taille = 0;
-};
+Partie::Partie(){};
 
 Partie::Partie(int Taille)
 {
-    board.Cases = new MatriceCases(Taille);
-    board.tabdMur = new TableauDynamiqueMur();
-
-    coupCourant = 0;
     taille = Taille;
     initPions();
 };
 
 Partie::~Partie()
 {
-
-
+    delete [] joueurs;
+    joueurs = nullptr;
 };
 
 void Partie::initPions(){
 
-    joueur1.ID = TypeOccupant::J1; /*On doit ici specifier typeoccupant::*/
-    joueur2.ID = TypeOccupant::J2;
-
     int milieu = taille/2;
-    vec2<int> pos1(0, milieu);
-    vec2<int> pos2(taille-1, milieu);
 
-    joueur1.caseCourante = board.Cases->getCase(pos1);
-    joueur2.caseCourante = board.Cases->getCase(pos2);
-
-    board.Cases->SetCaseOccupant(pos1,TypeOccupant::J1);
-    board.Cases->SetCaseOccupant(pos2,TypeOccupant::J2);
-
+    joueurs = new Pion[nbJoueurs];
+    for(int i = 0; i < nbJoueurs; i++){
+        joueurs[i].caseCourante.position = vec2<int>(milieu*(i==2||i==3)+(taille-1)*(i==1),milieu*(i==0||i==1) + (taille-1)*(i==3));
+        joueurs[i].ID = (TypeOccupant)i;
+    }
 };
 
+TypeOccupant Partie::idOfPos(const vec2<int> pos) const
+{
+    for(int i = 0; i < nbJoueurs; i++){
+        if(joueurs[i].caseCourante.position == pos) return joueurs[i].ID;
+    }
+    return TypeOccupant::Vide;
+};
+
+Pion& Partie::JoueurOfPos(const vec2<int> pos) const
+{
+    assert(idOfPos(pos) != TypeOccupant::Vide);
+    for(int i = 0; i < nbJoueurs; i++){
+        if(joueurs[i].caseCourante.position == pos) return joueurs[i];
+    }
+};
+
+Pion& Partie::JoueurOfTour() const
+{
+    return joueurs[coupCourant % nbJoueurs];
+};
 
 bool Partie::stringValide(const string s) const
 {
@@ -113,25 +113,21 @@ void Partie::afficherCoup(const coup& c) const{
     }
 };
 
-
 bool Partie::murValide(const Mur& m) const {
     
     /*un mur est valide ssi : il ne sort pas du board et qu il nest pas sur un autre mur et qu il ne bloque pas le chemin d un joueur
                             et que tx = hx ou ty=hy */
 
     /*1)verifier si il ne sort pas de du board*/
-    if ( m.Head.max() > taille)
-    {printf("sort du board\n");
-        return false;}
+    if ( m.Head.max() > taille) return false;
 
     /*2)tx = hx ou ty=hy*/
     if(m.Tail.x != m.Head.x && m.Tail.y != m.Head.y) return false ;
 
-
     /*3)verifier si il ne chevauche pas un autre mur*/
-    for (int unsigned i = 0; i < board.tabdMur->taille_utilisee; i++)
+    for (int unsigned i = 0; i < board.tabdMur.taille_utilisee; i++)
     {
-        Mur m2 = board.tabdMur->valeurIemeElement(i);
+        Mur m2 = board.tabdMur.valeurIemeElement(i);
         if(m/m2 || m2/m) return false;
     };
     
@@ -169,26 +165,20 @@ bool Partie::deplacementValide(const Pion& joueur, vec2<int> newpos) const{
 
     if( ( abs(joueur.caseCourante.position.x - newpos.x) + abs(joueur.caseCourante.position.y - newpos.y) ) != 1) return false; /*on verifie que newpos est bien une case adjacente a la position du joueur (distance de manhattan = 1)*/
 
-    
     Direction dirDeplacement = (newpos.x == joueur.caseCourante.position.x) ? Direction::VERTICAL : Direction::HORIZONTAL;
-    printf("dirDeplacement : %d\n", dirDeplacement);
 
-    /* 1)verifier si un autre joueur est sur newpos*/
-    if(board.Cases->getCase(newpos).Occupant != TypeOccupant::Vide) return false;
+    /* 0)verifier si il ne sort pas du board*/
+    if(newpos.max() >= taille || newpos.min() < 0) return false;
 
-    /*2)verifier si il ne sort pas de du board*/
-    if ( newpos.max() >= taille || newpos.min() < 0)
-    {printf("sort du board\n");
-        return false;}
+    /* 1)verifier si un autre joueur est sur newpos donc newpos ne peut pas etre lancienne case*/
+    if(idOfPos(newpos) != TypeOccupant::Vide) return false;
 
     /*3)verifier si il ne rencontre pas un mur : si dir == VERTICAL on regarde seulement les murs horizontaux et vice versa*/
-    for(int i = 0; i < board.tabdMur->taille_utilisee; i++){
-        Mur m = board.tabdMur->valeurIemeElement(i);
+    for(unsigned int i = 0; i < board.tabdMur.taille_utilisee; i++){
+        Mur m = board.tabdMur.valeurIemeElement(i);
         if(m.dir == dirDeplacement) continue;
         if(rencontreMur(joueur,m,newpos)) return false;
     }
-
-
 
     return true;
 };
@@ -209,10 +199,41 @@ bool Partie::coupValide(const coup &c, const Pion& joueur) const
 
 void Partie::deplacerPion (Pion& joueur, const vec2<int> newpos)
 {
-    board.Cases->SetCaseOccupant(joueur.caseCourante.position,TypeOccupant::Vide); /*On met vide sur la case courrante*/
-    joueur.caseCourante = board.Cases->getCase(newpos); /*On change la case courrante du joueur*/
-    board.Cases->SetCaseOccupant(newpos,joueur.ID); /*on met a jour la board*/
+    joueur.caseCourante.position = newpos;
 };
+
+Case* Partie::GetVoisins(const Case &c) const
+{
+    if(!c.valide) return nullptr;
+
+    Case *voisins = new Case [4];
+
+    //Voisin de droite
+    vec2<int> tempPos = vec2<int>(1+ c.position.x, c.position.y);
+
+    if (c.position.x < taille - 1) voisins[0].position = tempPos;
+    else voisins[0].valide = false;
+    
+    //Voisin du haut
+    tempPos = vec2<int>(c.position.x, -1+ c.position.y);
+
+    if (c.position.y > 0) voisins[1].position = tempPos;
+    else voisins[1].valide = false;
+
+    //Voisin de gauche
+    tempPos = vec2<int>(c.position.x-1, c.position.y);
+    
+    if (c.position.x > 0) voisins[2].position = tempPos;
+    else voisins[2].valide = false;
+
+    //Voisin du bas
+    tempPos = vec2<int>(c.position.x, 1+ c.position.y);
+
+    if (c.position.y < taille - 1) voisins[3].position = tempPos;
+    else voisins[3].valide = false;
+
+    return voisins;
+}
 
 void Partie::jouerCoup(const coup& c, Pion& joueur){
     /*on joue un coup en fonction de son type*/
@@ -224,35 +245,30 @@ void Partie::jouerCoup(const coup& c, Pion& joueur){
         coupCourant++;
     }
     else if(c.type == typeCoup::MUR && joueur.nbMur > 0){   
-        if (board.tabdMur->concatenerMur(c.mur));
-        else board.tabdMur->ajouterElement(c.mur);
+        if (board.tabdMur.concatenerMur(c.mur));
+        else board.tabdMur.ajouterElement(c.mur);
         joueur.nbMur--;
         coupCourant++;
     }
 };
 
 void Partie::afficherJoueur(const Pion& joueur) const{
-    printf("Joueur %d en %d %d ,nbmurs : %d\n", joueur.ID, joueur.caseCourante.position.x, joueur.caseCourante.position.y, joueur.nbMur);
+    printf("Joueur %d en %d %d ,nbmurs : %d\n", (int)joueur.ID, joueur.caseCourante.position.x, joueur.caseCourante.position.y, joueur.nbMur);
 };
 
-void Partie::afficherPartie(const bool verboseCases) const{
+void Partie::afficherPartie() const{
     printf("Tour courant : %d\n", coupCourant);
-    afficherJoueur(joueur1);
-    afficherJoueur(joueur2);
-    board.tabdMur->afficher();
-    if(verboseCases) board.Cases->afficher();
+    for(int i = 0; i < nbJoueurs; i++){
+        afficherJoueur(joueurs[i]);
+    }
+    board.tabdMur.afficher();
+    
 };
 
 bool Partie::gagnant(const TypeOccupant joueur) const {
     /*on regarde si un joueur a gagné*/
 
-    if(joueur == TypeOccupant::J1){
-        if (joueur1.caseCourante.position.x == taille-1) return true;}
-
-    else if(joueur == TypeOccupant::J2){
-        if (joueur2.caseCourante.position.x == 0) return true; }
-
-    return false;
+    return true;
 };
 
 bool Partie::partieTerminee() const{
@@ -261,39 +277,9 @@ bool Partie::partieTerminee() const{
 };
 
 
+char* Partie::StringofPion(const Pion& p) const{
+    char* s = new char[100];
+    sprintf_s(s, 100, "Joueur %d en %d %d ,nbmurs : %d\n", (int)p.ID, p.caseCourante.position.x, p.caseCourante.position.y, p.nbMur );
+    return s;
+};
 
-void Partie::jouerConsole() {
-    /*Lance une partie avec input console*/
-
-    while(true){
-
-        afficherPartie(false);
-
-        char* s;
-        scanf_s("%s", &s);
-        
-
-        if (s == "exit") break;
-        coup c = coupofString(s);
-        afficherCoup(c);
-
-        if(c.type == typeCoup::RIEN) continue;
-
-        if(coupCourant % 2 == 0){
-            jouerCoup(c, joueur1);
-        }
-        else{
-            jouerCoup(c, joueur2);
-        }
-
-        if(partieTerminee()){
-            printf("Partie terminee\n");
-            break;
-        }
-        coupCourant++;
-
-
-
-    }
-    
-}

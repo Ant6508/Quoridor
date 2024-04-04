@@ -2,8 +2,9 @@
 #include <wx\wx.h>
 #include <wx/bitmap.h>
 #include <wx/image.h> 
-
+#include <string>
 #include "MainFrame.h"
+
 
 
 class App : public wxApp
@@ -76,9 +77,12 @@ public:
 	/*fonctions debug pour afficher (wxmessagebox) les infos des murs*/
 	void wxAfficherInfoMur(unsigned int indice) const;
 
-	void wxAfficherInfotdm() const;
+	void wxAfficherInfotdm(wxCommandEvent& event) const;
 
 	void wxAfficherMurtemp() const;
+	/*Fonction pour le debug*/
+
+	void wxAfficherInfoPion(const Pion& joueur) const;
 
 	void OnExit(wxCloseEvent& event);
 };

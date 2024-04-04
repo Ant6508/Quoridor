@@ -5,9 +5,9 @@ elle n'a jamais accès à un objet Partie
 
 #pragma once
 #include <wx/wx.h>
-#include "Base\Partie.h"
 #include <wx/overlay.h>
 #include <wx/dcclient.h>
+#include "Base/Partie.h"
 
 
 class MainFrame : public wxFrame {
@@ -40,14 +40,11 @@ public:
     wxTextCtrl* InputCoup_TextCtrl;
     wxButton* JouerCoup_Button;
 
-    wxButton* placerMur_Button;
-
     wxButton* afficherMurs_Button;
 
 
     /*fonctions membres*/
 
-    Partie* initPartie(const int taille);
 
     /*Fonctions exclusive pour l'UI -> tous les murs et joueurs sont ont en const*/
     void initBoardUI(const int taille);
