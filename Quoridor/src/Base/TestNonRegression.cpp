@@ -1,12 +1,9 @@
 #include <iostream>
-#include <stdlib.h>
-#include "Partie.cpp"
 
 #include <assert.h>
 #include <regex>
 #include <string>
 
-#include "TableauDynamiqueMur.cpp"
 #include "Partie.cpp"
 
 using namespace std;
@@ -46,8 +43,8 @@ int main()
     assert(c2.type == typeCoup::MUR);
     assert(p.board.tabdMur.concatenerMur(c2.mur));
 
+    printf("Tout les tests passent\n");
 
-
-
+    return 0;
 
 }

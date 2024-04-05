@@ -15,11 +15,12 @@ class MainFrame : public wxFrame {
 public:
     MainFrame(const wxString& title);
 
-    int sizecase = 50;
+    int sizecase = 75;
     int epaissTraits = 2;
 
     wxPanel* panelMain;
     /*panel acceuillant tous les widgets */
+    /*au final MainFrame n'aura qu'un fils wxFrame direct qui prendra donc tout lespace dispo*/
 
     wxPanel* panelBoard;
     /*panel du board de jeu*/
@@ -27,21 +28,18 @@ public:
     wxPanel* panelJeu;
     /*panel des infos du jeu*/
 
-    /*textes du nombre de mur restants*/
-    wxStaticText* J1MursStaticText;
-    wxStaticText* J2MursStaticText;
-
     wxButton* initPartieButton;
 
     wxStaticText* CoupCourant_StaticText;
-    wxStaticText* J1StaticText;
-    wxStaticText* J2StaticText;
+
+    wxStaticText** Joueurs_StaticText;
 
     wxTextCtrl* InputCoup_TextCtrl;
     wxButton* JouerCoup_Button;
 
     wxButton* afficherMurs_Button;
 
+    wxButton* fermerMenu_Button;
 
     /*fonctions membres*/
 
@@ -51,9 +49,6 @@ public:
 
     bool afficherImagePNG(const wxString& filename, const vec2<int> pos) const ;
     /*Postcondition : retourne true si l'image est bien affichée*/
-
-    void initPionsUI(const int taille);
-    /*Initialise les pions des joueurs sur le board*/
 
     void effacerPion(const vec2<int> pos) const;
     /*Algo : dessine un rectangle gris à la position pos*/ 
@@ -69,6 +64,7 @@ public:
 
     void afficherCoupBoard(const coup& c,const Pion& joueur) const;
     /*deplace l'icône du joueur ou place un mur le board*/
+    
 
     void OnCloseWindow(wxCloseEvent& event);
 

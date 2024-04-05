@@ -105,7 +105,7 @@ void TableauDynamiqueMur::ajouterElement (Mur e) {
           exit(EXIT_FAILURE);
       }
       capacite *= 2;
-      for (unsigned int i = 0; i < taille_utilisee; i++) ad[i] = temp[i];
+      for ( int i = 0; i < taille_utilisee; i++) ad[i] = temp[i];
       delete [] temp;
   }
   ad[taille_utilisee] = e;

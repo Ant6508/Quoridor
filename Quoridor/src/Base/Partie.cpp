@@ -59,12 +59,9 @@ bool Partie::stringValide(const string s) const
     std::regex patternMur ("^M\\d\\d\\d\\d$"); //M1213
 
     return std::regex_match(s, patternDeplacement) || std::regex_match(s, patternMur);
-
 }
 
 coup Partie::coupofString(const string s) const{
-
-    
     /*fonction qui renvoie un coup a partir d une chaine de caractere*/
     coup c;
 
@@ -92,11 +89,9 @@ coup Partie::coupofString(const string s) const{
         m.Head = vec2<int>(Headx,Heady);
         m.dir = (m.Tail.x == m.Head.x) ? Direction::VERTICAL : Direction::HORIZONTAL; /*on determine la direction du mur*/
         c.mur = m;
-
     }
-    else{
-        c.type = typeCoup::RIEN;
-    }
+    else c.type = typeCoup::RIEN;
+        
     return c;
 };
 
@@ -109,12 +104,12 @@ void Partie::afficherCoup(const coup& c) const{
         printf("Mur de %d %d a %d %d\n", c.mur.Tail.x, c.mur.Tail.y, c.mur.Head.x, c.mur.Head.y);
     }
     else{
-        printf("Rien\n");
+        printf("Coup Rien\n");
     }
 };
 
-bool Partie::murValide(const Mur& m) const {
-    
+bool Partie::murValide(const Mur& m) const 
+{
     /*un mur est valide ssi : il ne sort pas du board et qu il nest pas sur un autre mur et qu il ne bloque pas le chemin d un joueur
                             et que tx = hx ou ty=hy */
 
@@ -235,9 +230,9 @@ Case* Partie::GetVoisins(const Case &c) const
     return voisins;
 }
 
-void Partie::jouerCoup(const coup& c, Pion& joueur){
+void Partie::jouerCoup(const coup& c, Pion& joueur)
+{
     /*on joue un coup en fonction de son type*/
-
     if(!coupValide(c, joueur)) return;
 
     if(c.type == typeCoup::DEPLACEMENT){
@@ -253,7 +248,7 @@ void Partie::jouerCoup(const coup& c, Pion& joueur){
 };
 
 void Partie::afficherJoueur(const Pion& joueur) const{
-    printf("Joueur %d en %d %d ,nbmurs : %d\n", (int)joueur.ID, joueur.caseCourante.position.x, joueur.caseCourante.position.y, joueur.nbMur);
+    printf("Joueur %d en (%d %d) ,nbmurs : %d\n", (int)joueur.ID, joueur.caseCourante.position.x, joueur.caseCourante.position.y, joueur.nbMur);
 };
 
 void Partie::afficherPartie() const{
