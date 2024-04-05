@@ -28,7 +28,7 @@ bool App::OnInit()
 	mainFrame->fermerMenu_Button->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event) {fermerMenu(event);});
 
 	/*fonctions pour les inputs souris*/
-	mainFrame->panelBoard->Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent& event) {onleftClickBoard(event);});
+	mainFrame->panelBoard->Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent& event) {onLeftClickBoard(event);});
 	mainFrame->panelBoard->Bind(wxEVT_RIGHT_DOWN, [this](wxMouseEvent& event) {onRightClickBoard(event);});
 	mainFrame->panelBoard->Bind(wxEVT_MOTION, [this](wxMouseEvent& event) {onMouseMoveBoard(event);});
 	
@@ -64,7 +64,7 @@ void App::initJeuUI(const int taille)
 	for(int i = 0; i < partie->nbJoueurs; i++)
 	{
 		char* str = partie->StringofPion(partie->joueurs[i]);
-		mainFrame->Joueurs_StaticText[i] = new wxStaticText(mainFrame->panelJeu, wxID_ANY, str, wxPoint(0, 100 + i*20), wxSize(200, 20));
+		mainFrame->Joueurs_StaticText[i] = new wxStaticText(mainFrame->panelJeu, wxID_ANY, str, wxPoint(0, 100 + i*40), wxSize(200, 20));
 		delete [] str;
 		str = NULL;
 	}
@@ -95,9 +95,9 @@ void App::onButtonInitPartie(wxCommandEvent& event)
 	partieInit = true;
 }
 
-void App::jouerCoupBoard(const string s)
+void App::jouerCoupBoard(const string coupString)
 {
-	coup c = partie->coupofString(s);
+	coup c = partie->coupofString(coup_String);
 	Pion& p = (partie->JoueurOfTour());
 	
 	if(partie->coupValide(c, p))
@@ -125,7 +125,7 @@ void App::afficherVoisinesPion(const Pion& joueur) const
 	for(int i = 0; i < 4; i++)
 	{
 		if(voisines[i].valide && partie->deplacementValide(joueur,voisines[i].position)) /*Couvre donc le cas ou un joueur est présent sur la newcase*/
-			mainFrame->surlignerCase(voisines[i].position, wxColour(100, 100, 250));
+			mainFrame->surlignerCase(voisines[i].position, wxColour(102, 204, 0));
 	}
 
 	/*supprimer la liste des voisines pour éviter un mem leak...*/
@@ -151,7 +151,7 @@ void App::effacerVoisinesPion(const Pion& joueur) const
 	voisines = NULL;
 }
 
-void App::onleftClickBoard(wxMouseEvent& event)
+void App::onLeftClickBoard(wxMouseEvent& event)
 {
 
 	if(!partieInit) return;

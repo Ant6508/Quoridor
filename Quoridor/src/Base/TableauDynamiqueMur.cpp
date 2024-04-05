@@ -95,7 +95,7 @@ bool TableauDynamiqueMur::estVide () const {
   return taille_utilisee == 0;
 }
 
-void TableauDynamiqueMur::ajouterElement (Mur e) {
+void TableauDynamiqueMur::ajouterElement (Mur m) {
   Mur * temp;
   if (taille_utilisee == capacite) { // tableau plein, doublons la capacité
       temp = ad;
@@ -108,7 +108,7 @@ void TableauDynamiqueMur::ajouterElement (Mur e) {
       for ( int i = 0; i < taille_utilisee; i++) ad[i] = temp[i];
       delete [] temp;
   }
-  ad[taille_utilisee] = e;
+  ad[taille_utilisee] = m;
   taille_utilisee++;
 }
 

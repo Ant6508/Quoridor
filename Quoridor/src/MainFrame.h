@@ -20,7 +20,7 @@ public:
 
     wxPanel* panelMain;
     /*panel acceuillant tous les widgets */
-    /*au final MainFrame n'aura qu'un fils wxFrame direct qui prendra donc tout lespace dispo*/
+    /*au final MainFrame n'aura qu'un fils wxFrame direct qui prendra donc tout l'espace dispo*/
 
     wxPanel* panelBoard;
     /*panel du board de jeu*/
@@ -29,17 +29,20 @@ public:
     /*panel des infos du jeu*/
 
     wxButton* initPartieButton;
+    
+    wxButton* JouerCoup_Button;
+
+    wxButton* afficherMurs_Button;
+
+    wxButton* fermerMenu_Button;
+
 
     wxStaticText* CoupCourant_StaticText;
 
     wxStaticText** Joueurs_StaticText;
 
     wxTextCtrl* InputCoup_TextCtrl;
-    wxButton* JouerCoup_Button;
 
-    wxButton* afficherMurs_Button;
-
-    wxButton* fermerMenu_Button;
 
     /*fonctions membres*/
 
@@ -56,15 +59,14 @@ public:
     void deplacerPion(const vec2<int> oldpos, const vec2<int> newpos  ,const Pion& joueur) const;
     /*Algo : efface le pion à oldpos et dessine le pion à newpos*/
 
-    void afficherMur(const Mur, wxColour c, int epaisseur) const;
+    void afficherMur(const Mur& m, wxColour c, int epaisseur) const;
     /*Algo : dessine un mur sur le board*/
 
     void surlignerCase(const vec2<int> pos,wxColour c) const;
     /*affiche la case pos en bleu*/
 
-    void afficherCoupBoard(const coup& c,const Pion& joueur) const;
+    void afficherCoupBoard(const Coup& c,const Pion& joueur) const;
     /*deplace l'icône du joueur ou place un mur le board*/
-    
 
     void OnCloseWindow(wxCloseEvent& event);
 

@@ -92,7 +92,7 @@ void MainFrame::deplacerPion(const vec2<int> oldpos, const vec2<int> newpos ,con
     effacerPion(oldpos);
 }
 
-void MainFrame::afficherMur(const Mur m, const wxColour c,int epaisseur) const
+void MainFrame::afficherMur(const Mur& m, const wxColour c,int epaisseur) const
 {
     wxClientDC dc(panelBoard);
     dc.SetPen(wxPen(c, epaisseur)); // declarer le pen
@@ -108,7 +108,7 @@ void MainFrame::surlignerCase(const vec2<int> pos,wxColour c) const
     dc.DrawRectangle(wxRect(pos.x*sizecase+1, pos.y*sizecase+1, sizecase-epaissTraits, sizecase-epaissTraits));
 }
 
-void MainFrame::afficherCoupBoard(const coup& c,const Pion& joueur) const
+void MainFrame::afficherCoupBoard(const Coup& c,const Pion& joueur) const
 {
     if(c.type ==typeCoup::RIEN || joueur.ID==TypeOccupant::Vide ) return;
 

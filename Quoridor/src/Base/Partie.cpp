@@ -61,9 +61,9 @@ bool Partie::stringValide(const string s) const
     return std::regex_match(s, patternDeplacement) || std::regex_match(s, patternMur);
 }
 
-coup Partie::coupofString(const string s) const{
-    /*fonction qui renvoie un coup a partir d une chaine de caractere*/
-    coup c;
+Coup Partie::coupofString(const string s) const{
+    /*fonction qui renvoie un Coup a partir d une chaine de caractere*/
+    Coup c;
 
     if(!stringValide(s)){
         c.type = typeCoup::RIEN;
@@ -95,8 +95,8 @@ coup Partie::coupofString(const string s) const{
     return c;
 };
 
-void Partie::afficherCoup(const coup& c) const{
-    /*fonction qui affiche un coup*/
+void Partie::afficherCoup(const Coup& c) const{
+    /*fonction qui affiche un Coup*/
     if(c.type == typeCoup::DEPLACEMENT){
         printf("Deplacement en %d %d\n", c.newpos.x, c.newpos.y);
     }
@@ -178,9 +178,9 @@ bool Partie::deplacementValide(const Pion& joueur, vec2<int> newpos) const{
     return true;
 };
 
-bool Partie::coupValide(const coup &c, const Pion& joueur) const
+bool Partie::coupValide(const Coup &c, const Pion& joueur) const
 {
-    /*un coup est valide ssi : il est de type deplacement et que le deplacement est valide ou que c est un mur et que le mur est valide*/
+    /*un Coup est valide ssi : il est de type deplacement et que le deplacement est valide ou que c est un mur et que le mur est valide*/
     if(c.type == typeCoup::DEPLACEMENT){
         return deplacementValide(joueur, c.newpos);
     }
@@ -230,9 +230,9 @@ Case* Partie::GetVoisins(const Case &c) const
     return voisins;
 }
 
-void Partie::jouerCoup(const coup& c, Pion& joueur)
+void Partie::jouerCoup(const Coup& c, Pion& joueur)
 {
-    /*on joue un coup en fonction de son type*/
+    /*on joue un Coup en fonction de son type*/
     if(!coupValide(c, joueur)) return;
 
     if(c.type == typeCoup::DEPLACEMENT){

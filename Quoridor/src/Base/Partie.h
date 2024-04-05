@@ -12,12 +12,10 @@ enum class TypeOccupant
 /*Permet de savoir quel joueur se trouve sur la case*/
 {
     Vide=-1,J1=0,J2=1, J3=2, J4=3
-     /*Pour jouer à 3/4 ou plus il faudra agrandir cette énumération*/
 };
 
 struct Case
-/*Représente une case du board*/
-{
+{/*Représente une case du board*/
     bool valide = true;
     vec2<int> position; 
 };
@@ -32,7 +30,7 @@ struct Pion{
 
 enum class typeCoup {DEPLACEMENT, MUR, RIEN};
 
-struct coup{
+struct Coup{
     typeCoup type = typeCoup::RIEN;
     vec2<int> newpos;
     Mur mur;
@@ -68,6 +66,7 @@ class Partie
 
         /*fonctions pour les deplacements*/
         bool deplacementValide(const Pion& joueur,const vec2<int> pos) const;
+        
         void deplacerPion(Pion& joueur, const vec2<int> pos); /*fonction type setter donc pas de const*/
 
         Case* GetVoisins(const Case &c) const; // Renvoie les voisins de la case c
@@ -78,20 +77,20 @@ class Partie
         /*fonctions pour les coups*/
 
         bool stringValide(const string s) const;
-        /*fonction qui vérifie si le string est valide pour un coup avec regex*/
+        /*fonction qui vérifie si le string est valide pour un Coup avec regex*/
 
-        coup coupofString(const string s) const;
-        /*Précondition: le string représentant un coup est valide (le coup peut lui être injouable pour l'un des joueurs par contre)*/
-        /*Postcondition: retourne le coup correspondant au string, de type RIEN si string invalide*/
+        Coup coupofString(const string s) const;
+        /*Précondition: le string représentant un Coup est valide (le Coup peut lui être injouable pour l'un des joueurs par contre)*/
+        /*Postcondition: retourne le Coup correspondant au string, de type RIEN si string invalide*/
 
-        void afficherCoup(const coup& c) const;
+        void afficherCoup(const Coup& c) const;
 
-        bool coupValide(const coup& c, const Pion& joueur) const;
-        /*un coup est valide ssi : il est de type deplacement et que le deplacement est valide ou que c est un mur et que le mur est valide*/
+        bool coupValide(const Coup& c, const Pion& joueur) const;
+        /*un Coup est valide ssi : il est de type deplacement et que le deplacement est valide ou que c est un mur et que le mur est valide*/
         /*Résultat: True si valide false sinon*/
 
-        void jouerCoup(const coup& c, Pion& joueur) ;
-        /*Précondition: Le coup est valide*/
+        void jouerCoup(const Coup& c, Pion& joueur) ;
+        /*Précondition: Le Coup est valide*/
         
         void afficherJoueur(const Pion& joueur) const;
 

@@ -14,7 +14,6 @@ enum class Direction {HORIZONTAL, VERTICAL, NONE};
 
 struct Mur
 {
-    /* data */
     vec2<int> Tail;
     vec2<int> Head;
     Direction dir = Direction::NONE;
@@ -54,7 +53,7 @@ public:
     bool estVide () const;
     /* Resultat : vrai si le tableau est vide, faux sinon */
     
-    void ajouterElement (Mur e);
+    void ajouterElement (Mur m);
     /* Postcondition : l'élément e est ajouté dans le premier emplacement inutilisé du tableau,
                        la taille est incrémentée de 1. Doublement de la capacité si nécessaire. */
 

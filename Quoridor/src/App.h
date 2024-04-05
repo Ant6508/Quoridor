@@ -47,7 +47,7 @@ public:
 	void updatejeuUI();
 	/*Update les textes en fonction de la partie en cours*/
 
-	void jouerCoupBoard(const string s);
+	void jouerCoupBoard(const string coupString);
 	/*joue le coup s sur le board si c'est permit */
 	/*Update l'ui et la partie*/
 
@@ -65,7 +65,7 @@ public:
 	void onButtonJouerCoup(wxCommandEvent& event);
 	/*Fonction de l'event du bouton jouerCoup*/
 
-	void onleftClickBoard(wxMouseEvent& event);
+	void onLeftClickBoard(wxMouseEvent& event);
 	/*fonctions appelés pour tout click gauche sur panelboard*/
 	/*permet de déplacer le joueur sur les cases disponibles*/
 
@@ -73,11 +73,11 @@ public:
 	/*fonctions appelés pour tout click droit sur panelboard*/
 	/*permet de poser un mur à la souris avec un faux drag and drop*/
 
-	void onKeyPressBoard(wxKeyEvent& event);
-	/*Fonction de l'event du clavier*/
-
 	void onMouseMoveBoard(wxMouseEvent& event);
 	/*Fonction de l'event du mouvement de la souris sur panelboard*/
+
+	void onKeyPressBoard(wxKeyEvent& event);
+	/*Fonction de l'event du clavier*/
 
 	void onEventPlacerMur();
 	/*Fonction de l'event placerMur*/
