@@ -76,10 +76,10 @@ class Partie
  
         /*fonctions pour les coups*/
 
-        bool stringValide(const string s) const;
+        bool stringValide(const string coup_String) const;
         /*fonction qui vérifie si le string est valide pour un Coup avec regex*/
 
-        Coup coupofString(const string s) const;
+        Coup coupofString(const string coup_String) const;
         /*Précondition: le string représentant un Coup est valide (le Coup peut lui être injouable pour l'un des joueurs par contre)*/
         /*Postcondition: retourne le Coup correspondant au string, de type RIEN si string invalide*/
 

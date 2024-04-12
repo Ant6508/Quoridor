@@ -88,6 +88,7 @@ void App::onButtonInitPartie(wxCommandEvent& event)
 {
 
 	if(partieInit) delete partie;
+	partie =NULL;
 	partie = new Partie(9);
 	initPartieUI(9);
 
@@ -97,13 +98,13 @@ void App::onButtonInitPartie(wxCommandEvent& event)
 
 void App::jouerCoupBoard(const string coupString)
 {
-	coup c = partie->coupofString(coup_String);
+	Coup c = partie->coupofString(coupString);
 	Pion& p = (partie->JoueurOfTour());
 	
 	if(partie->coupValide(c, p))
 	{
 		mainFrame->afficherCoupBoard(c, p); /*affichage UI sur le board*/
-		partie->jouerCoup(c, p); /*Joueur le coup pour l'objet Partie*/
+		partie->jouerCoup(c, p); /*Joueur le Couppour l'objet Partie*/
 		updatejeuUI(); /*update l'UI text*/
 	}
 }
@@ -111,9 +112,9 @@ void App::jouerCoupBoard(const string coupString)
 void App::onButtonJouerCoup(wxCommandEvent& event)
 {
 	if(!partieInit) return;
-	string coupstring = mainFrame->InputCoup_TextCtrl->GetValue().ToStdString(); /*rècupère le coup présent dans la txtbox*/
+	string coupstring = mainFrame->InputCoup_TextCtrl->GetValue().ToStdString(); /*rècupère le Coupprésent dans la txtbox*/
 	if(voisinsSelected) {effacerVoisinesPion(partie->JoueurOfTour()); voisinsSelected = false;}
-	jouerCoupBoard(coupstring); /*joue le coup si il est possible*/
+	jouerCoupBoard(coupstring); /*joue le Coupsi il est possible*/
 }
 
 void App::afficherVoisinesPion(const Pion& joueur) const

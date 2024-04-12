@@ -19,6 +19,8 @@ Partie::~Partie()
 {
     delete [] joueurs;
     joueurs = nullptr;
+    delete &board;
+
 };
 
 void Partie::initPions(){
@@ -53,37 +55,37 @@ Pion& Partie::JoueurOfTour() const
     return joueurs[coupCourant % nbJoueurs];
 };
 
-bool Partie::stringValide(const string s) const
+bool Partie::stringValide(const string coupString) const
 {
     std::regex patternDeplacement ("^D\\d\\d$"); //D01
     std::regex patternMur ("^M\\d\\d\\d\\d$"); //M1213
 
-    return std::regex_match(s, patternDeplacement) || std::regex_match(s, patternMur);
+    return std::regex_match(coupString, patternDeplacement) || std::regex_match(coupString, patternMur);
 }
 
-Coup Partie::coupofString(const string s) const{
+Coup Partie::coupofString(const string coupString) const{
     /*fonction qui renvoie un Coup a partir d une chaine de caractere*/
     Coup c;
 
-    if(!stringValide(s)){
+    if(!stringValide(coupString)){
         c.type = typeCoup::RIEN;
         return c;
     }
     
-    if(s[0] == 'D'){
+    if(coupString[0] == 'D'){
         c.type = typeCoup::DEPLACEMENT;
-        int nposx = stoi(s.substr(1,1));
-        int nposy = stoi(s.substr(2,1));
+        int nposx = stoi(coupString.substr(1,1));
+        int nposy = stoi(coupString.substr(2,1));
         c.newpos = vec2<int>(nposx,nposy);
     }
-    else if(s[0] == 'M'){
+    else if(coupString[0] == 'M'){
         c.type = typeCoup::MUR;
         Mur m;
         
-        int Tailx = stoi(s.substr(1,1));
-        int Taily = stoi(s.substr(2,1));
-        int Headx = stoi(s.substr(3,1));
-        int Heady = stoi(s.substr(4,1));
+        int Tailx = stoi(coupString.substr(1,1));
+        int Taily = stoi(coupString.substr(2,1));
+        int Headx = stoi(coupString.substr(3,1));
+        int Heady = stoi(coupString.substr(4,1));
 
         m.Tail = vec2<int>(Tailx,Taily);
         m.Head = vec2<int>(Headx,Heady);

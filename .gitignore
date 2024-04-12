@@ -1,6 +1,9 @@
 Quoridor/.vs/
 Quoridor/Debug/
 Quoridor/Quoridor/Debug/
-.vs/
-.vscode/
 Quoridor/Doc/html
+
+.vs
+.vscode
+
+CMake

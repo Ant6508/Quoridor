@@ -18,7 +18,7 @@ Les règles les suivantes :
 
 
 # Comment Jouer au Clavier/Souris sur le plateau
-![ExemplePartie](./Quoridor/data/ReadMeImages/partieRandom.png "cases vertes:dispo , murs et bleu")
+![ExemplePartie](./Quoridor/data/ReadMeImages/partieRandom.png "cases vertes:dispo , murs en bleu")
 
 Click gauche : Afficher les cases disponibles pour se déplacer puis sélectionner avec click gauche encore
 
@@ -29,6 +29,9 @@ touche s : changer l'orientation vertical/horizontal dur mur qu'on veut poser
 touche t : faire apparaître le menu
 
 
+# Build
+
+à venir
 
 # Auteur
 Julien P12025052
