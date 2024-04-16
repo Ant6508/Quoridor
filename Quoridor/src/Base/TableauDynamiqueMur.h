@@ -36,6 +36,7 @@ public:
 
     /* fonctions membres */
     /* ================= */
+    
     TableauDynamiqueMur (); // Constructeur par défaut
     /* Postcondition : le tableau a 1 emplacement alloué mais vide (taille utilisée nulle) */
 

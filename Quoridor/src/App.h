@@ -10,8 +10,7 @@
 class App : public wxApp
 {
 public:
-	
-
+	/*Données membres*/
 	Partie* partie=nullptr;
 	/*Partie en cours*/
 	/* * sur un objet Partie sur le tas*/
@@ -30,6 +29,8 @@ public:
 
 	MainFrame* mainFrame=nullptr;
 	/*main wxframe*/
+
+	/*Fonctions membres*/
 
 	bool OnInit();
 	/*Fonction d'initialisation de l'application et point d'entré pour wxwidgets*/

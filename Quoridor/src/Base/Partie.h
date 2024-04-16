@@ -53,12 +53,13 @@ class Partie
         Partie(int taille);
         ~Partie();
 
-        void initPions();/*Déclare et positionne sur le board les 2 pions*/
-        TypeOccupant idOfPos(const vec2<int> pos) const;
+        void initPions();/*Déclare et positionne sur le board les pions*/
+        TypeOccupant idOfPos(const vec2<int> pos) const; /*Obtient un joueur en fonction d'une position*/
         Pion& JoueurOfPos(const vec2<int> pos) const;
         /*Précondition: la position pos nest pas vide*/
 
         Pion& JoueurOfTour() const;
+        /*Renvoie le joueur dont c'est le tour*/
 
         /*fonctions pour les murs*/
         bool murValide(const Mur& m) const;

@@ -7,7 +7,7 @@ elle n'a jamais accès à un objet Partie
 #include <wx/wx.h>
 #include <wx/overlay.h>
 #include <wx/dcclient.h>
-#include "Base/Partie.h"
+#include "Base/Partie.h"    
 
 
 class MainFrame : public wxFrame {
@@ -62,12 +62,9 @@ public:
     void afficherMur(const Mur& m, wxColour c, int epaisseur) const;
     /*Algo : dessine un mur sur le board*/
 
-    void surlignerCase(const vec2<int> pos,wxColour c) const;
+    void surlignerCase(const vec2<int> pos,const wxColour c) const;
     /*affiche la case pos en bleu*/
 
     void afficherCoupBoard(const Coup& c,const Pion& joueur) const;
     /*deplace l'icône du joueur ou place un mur le board*/
-
-    void OnCloseWindow(wxCloseEvent& event);
-
 };

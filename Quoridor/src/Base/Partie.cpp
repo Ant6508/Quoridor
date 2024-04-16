@@ -19,15 +19,14 @@ Partie::~Partie()
 {
     delete [] joueurs;
     joueurs = nullptr;
-    delete &board;
 
 };
 
-void Partie::initPions(){
-
+void Partie::initPions()
+{
     int milieu = taille/2;
-
     joueurs = new Pion[nbJoueurs];
+
     for(int i = 0; i < nbJoueurs; i++){
         joueurs[i].caseCourante.position = vec2<int>(milieu*(i==2||i==3)+(taille-1)*(i==1),milieu*(i==0||i==1) + (taille-1)*(i==3));
         joueurs[i].ID = (TypeOccupant)i;
@@ -63,8 +62,8 @@ bool Partie::stringValide(const string coupString) const
     return std::regex_match(coupString, patternDeplacement) || std::regex_match(coupString, patternMur);
 }
 
-Coup Partie::coupofString(const string coupString) const{
-    /*fonction qui renvoie un Coup a partir d une chaine de caractere*/
+Coup Partie::coupofString(const string coupString) const
+{
     Coup c;
 
     if(!stringValide(coupString)){
@@ -250,7 +249,7 @@ void Partie::jouerCoup(const Coup& c, Pion& joueur)
 };
 
 void Partie::afficherJoueur(const Pion& joueur) const{
-    printf("Joueur %d en (%d %d) ,nbmurs : %d\n", (int)joueur.ID, joueur.caseCourante.position.x, joueur.caseCourante.position.y, joueur.nbMur);
+    printf("Joueur %d en ( %d %d ) , murs : %d\n", (int)joueur.ID, joueur.caseCourante.position.x, joueur.caseCourante.position.y, joueur.nbMur);
 };
 
 void Partie::afficherPartie() const{
@@ -276,7 +275,7 @@ bool Partie::partieTerminee() const{
 
 char* Partie::StringofPion(const Pion& p) const{
     char* s = new char[100];
-    sprintf_s(s, 100, "Joueur %d en %d %d ,nbmurs : %d\n", (int)p.ID, p.caseCourante.position.x, p.caseCourante.position.y, p.nbMur );
+    sprintf_s(s, 100, "Joueur %d en ( %d %d ) , murs : %d\n", (int)p.ID, p.caseCourante.position.x, p.caseCourante.position.y, p.nbMur );
     return s;
 };
 

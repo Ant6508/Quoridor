@@ -60,6 +60,8 @@ void App::initJeuUI(const int taille)
 	mainFrame->CoupCourant_StaticText->SetLabel("Coup Courant : 0");
 	mainFrame->InputCoup_TextCtrl->SetLabel("D03");
 
+	if(partieInit) delete [] mainFrame->Joueurs_StaticText; /*sinon mem leak d'une adresse*/
+
 	mainFrame->Joueurs_StaticText = new wxStaticText*[partie->nbJoueurs];
 	for(int i = 0; i < partie->nbJoueurs; i++)
 	{
@@ -81,14 +83,16 @@ void App::updatejeuUI(){
 		mainFrame->Joueurs_StaticText[i]->SetLabel(str);
 		delete [] str;
 	}
-
 }
 
 void App::onButtonInitPartie(wxCommandEvent& event)
 {
 
-	if(partieInit) delete partie;
-	partie =NULL;
+	if(partieInit){
+		delete partie;
+		partie = NULL;
+	}
+	
 	partie = new Partie(9);
 	initPartieUI(9);
 
@@ -201,7 +205,6 @@ void App::onLeftClickBoard(wxMouseEvent& event)
 		murTemp.dir = Direction::NONE;
 		murSelected = false;
 	}
-
 }
 
 void App::onRightClickBoard(wxMouseEvent& event)
@@ -337,12 +340,12 @@ void App::wxAfficherInfoPion(const Pion& joueur) const
 void App::fermerMenu(wxCommandEvent& event)
 {
 	mainFrame->SetSize(mainFrame->GetSize().y ,mainFrame->GetSize().y);
-
 }
 
 void App::OnExit(wxCloseEvent& event)
 {
 	delete partie;
+	partie = NULL;
 	delete [] mainFrame->Joueurs_StaticText;
 
 	

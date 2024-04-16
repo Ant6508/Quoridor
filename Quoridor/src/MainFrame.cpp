@@ -33,7 +33,6 @@ MainFrame::MainFrame(const wxString& title): wxFrame(nullptr, wxID_ANY, title, w
 
 }
 
-
 void MainFrame::initBoardUI(const int taille)
 {
     wxClientDC dc(panelBoard);
@@ -51,7 +50,6 @@ void MainFrame::initBoardUI(const int taille)
         dc.DrawLine(i * sizecase, 0, i * sizecase, taille*sizecase);
     }
 }
-
 
 bool MainFrame::afficherImagePNG(const wxString& filename, const vec2<int> pos) const
 {
@@ -72,7 +70,6 @@ bool MainFrame::afficherImagePNG(const wxString& filename, const vec2<int> pos) 
     delete image;
     return true;
 }
-
 
 void MainFrame::effacerPion(const vec2<int> pos) const
 {
@@ -99,8 +96,7 @@ void MainFrame::afficherMur(const Mur& m, const wxColour c,int epaisseur) const
     dc.DrawLine(m.Tail.x*sizecase, m.Tail.y*sizecase, m.Head.x*sizecase, m.Head.y*sizecase);
 }
 
-
-void MainFrame::surlignerCase(const vec2<int> pos,wxColour c) const
+void MainFrame::surlignerCase(const vec2<int> pos,const wxColour c) const
 {
     wxClientDC dc(panelBoard);
     dc.SetBrush(c);

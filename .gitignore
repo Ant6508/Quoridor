@@ -1,9 +1,12 @@
 Quoridor/.vs/
 Quoridor/Debug/
+
 Quoridor/Quoridor/Debug/
-Quoridor/Doc/html
+Quoridor/Quoridor/x64
+
+Quoridor/Doc/html/
+Quoridor/external/
+Quoridor/Build
 
 .vs
 .vscode
-
-CMake

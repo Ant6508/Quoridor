@@ -74,7 +74,7 @@ TableauDynamiqueMur::TableauDynamiqueMur (const TableauDynamiqueMur & t) { //con
   ad = new Mur [t.capacite];
   capacite = t.capacite;
   taille_utilisee = t.taille_utilisee;
-  for (unsigned int i = 0; i < t.taille_utilisee; i++) ad[i] = t.ad[i];
+  for (unsigned int i = 0; i < t.taille_utilisee; i++) modifierValeurIemeElement(t.ad[i], i);
 }
 
 TableauDynamiqueMur::~TableauDynamiqueMur () {
@@ -105,10 +105,10 @@ void TableauDynamiqueMur::ajouterElement (Mur m) {
           exit(EXIT_FAILURE);
       }
       capacite *= 2;
-      for ( int i = 0; i < taille_utilisee; i++) ad[i] = temp[i];
+      for (unsigned int i = 0; i < taille_utilisee; i++) modifierValeurIemeElement(temp[i], i);
       delete [] temp;
   }
-  ad[taille_utilisee] = m;
+  modifierValeurIemeElement(m, taille_utilisee);
   taille_utilisee++;
 }
 
@@ -120,16 +120,17 @@ bool TableauDynamiqueMur::concatenerMur (const Mur m) {
 
   for (unsigned int i = 0; i < taille_utilisee; i++) {
 
-    if(m.dir==ad[i].dir && ( ad[i].Tail == m.Head || ad[i].Head==m.Tail )) { /*par construction on au plus 2 fois cette condition */
+    Mur iemeMur = valeurIemeElement(i);
+
+    if(m.dir==iemeMur.dir && ( iemeMur.Tail == m.Head || iemeMur.Head==m.Tail )) { /*par construction on au plus 2 fois cette condition */
       
       if( tempint != -1) { /*cas ou on a déjà eu un candidat*/
-        modifierValeurIemeElement(ad[i] + m, tempint); /*concaténation des deux murs*/ 
+        modifierValeurIemeElement(iemeMur + m, tempint); /*concaténation des deux murs*/ 
         supprimerElement(i); /*suppression de l'élément concaténé*/
         return true;
       }
-
       else {
-        ad[i] = ad[i] + m; /*cas ou on a pas encore eu de candidat*/
+        modifierValeurIemeElement(iemeMur + m, i); /*concaténation des deux murs*/
         tempint = i; /*On enregistre à quel emplacement le 1er mur a été concaténé*/
       }
     }
@@ -139,7 +140,8 @@ bool TableauDynamiqueMur::concatenerMur (const Mur m) {
   return false; /*concaténation non efféctuée*/
 }
 
-Mur TableauDynamiqueMur::valeurIemeElement (unsigned int indice) const {
+Mur TableauDynamiqueMur::valeurIemeElement (unsigned int indice) const
+{
   return ad[indice];
 }
 
@@ -147,24 +149,25 @@ char* TableauDynamiqueMur::toString(unsigned int indice) const
 {
   Mur m = ad[indice];
   char* str = new char[100];
-  sprintf_s(str, 100, "Mur %d : Taille : (%d,%d) Head : (%d,%d) Direction : %d\n", indice, m.Tail.x, m.Tail.y, m.Head.x, m.Head.y, m.dir);
+  sprintf_s(str, 100, "Mur %d : Tail : (%d,%d) Head : (%d,%d) Direction : %d\n", indice, m.Tail.x, m.Tail.y, m.Head.x, m.Head.y, m.dir);
   return str;
 }
 
-void TableauDynamiqueMur::afficher() const {
+void TableauDynamiqueMur::afficher() const
+{
   for (unsigned int i = 0; i < taille_utilisee; i++) {
     printf("%s", toString(i));
   }
 }
 
-/*PRIVATE TDM*/
+/*fonctions membres privées*/
 
 void TableauDynamiqueMur::modifierValeurIemeElement (Mur e, unsigned int indice) {
   ad[indice] = e;
 }
 
-void TableauDynamiqueMur::supprimerElement (unsigned int indice) {
-  
+void TableauDynamiqueMur::supprimerElement (unsigned int indice)
+{
   if(indice < taille_utilisee-1) {
       for(unsigned int p = indice; p < taille_utilisee-1; p++)
         ad[p] = ad[p+1];
@@ -180,7 +183,8 @@ void TableauDynamiqueMur::supprimerElement (unsigned int indice) {
   }
 }
 
-void TableauDynamiqueMur::insererElement (Mur e, unsigned int indice) {
+void TableauDynamiqueMur::insererElement (Mur e, unsigned int indice)
+{
   if(taille_utilisee > 0) {
       /* S'il y a au moins un Mur dans le tableau, on recopie le dernier
          en appelant la procédure d'ajout, qui s'occupera d'augmenter la capacité si nécessaire */
