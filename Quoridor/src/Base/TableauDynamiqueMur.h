@@ -1,6 +1,6 @@
 /* Le module TableauDynamiqueMur met en place un tableau dynamique de murs.
 Cette classe va permettre de gérer les murs du jeu Quoridor qui sont surement les éléments les plus importants du jeu.
-Cette classe provient du code utilisé en TD mais a été largement modifiée pour s'adapter au jeu et traiter les les objets que sont les murs.
+Cette classe provient du code utilisé en TD à lyon1 mais a été largement modifiée pour s'adapter au jeu et traiter les les objets que sont les murs.
 */
 
 #ifndef TABLEAUDYNAMIQUEMUR_H__
@@ -70,11 +70,13 @@ public:
     /* Resultat : retourne le Mur à l'indice en paramètre */
 
     char* toString(unsigned int indice) const;
-    /* Precondition : 0 <= indice < taille_utilisee */
+    /* Precondition : 0 <= indice < taille_utilisee 
     /* Resultat : retourne une chaine de caractère représentant le Mur à l'indice en paramètre */
+    /*Doit être supprimé du tas*/
+
 
     void afficher() const;
-    /*affiche tous les éléments du tableau avec tostring*/
+    /*affiche tous les éléments du tableau avec tostring dans la console*/
 
 private:
 
@@ -83,7 +85,7 @@ private:
     
     void modifierValeurIemeElement (Mur e, unsigned int indice);
     /* Precondition : 0 <= indice < taille_utilisee */
-    /* Postcondition : l'Mur à l'indice en paramètre vaut e */
+    /* Postcondition : le Mur à l'indice en paramètre vaut e */
 
     
     void supprimerElement (unsigned int indice);

@@ -272,7 +272,6 @@ bool Partie::partieTerminee() const{
     return gagnant(TypeOccupant::J1) || gagnant(TypeOccupant::J2);
 };
 
-
 char* Partie::StringofPion(const Pion& p) const{
     char* s = new char[100];
     sprintf_s(s, 100, "Joueur %d en ( %d %d ) , murs : %d\n", (int)p.ID, p.caseCourante.position.x, p.caseCourante.position.y, p.nbMur );

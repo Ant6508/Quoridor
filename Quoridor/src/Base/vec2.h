@@ -144,11 +144,11 @@ public:
 		return x < y ? x : y;
 	}
 	
+
 	void set(T x, T y) {
 		this->x = x;
 		this->y = y;
 	}
-	
 	
 	vec2& normalize() {
 		if (length() == 0) return *this;

@@ -33,9 +33,10 @@ Mur Mur::operator +(const Mur m2)  {
 };
 
 bool Mur::operator /(const Mur m2) const {
-  /*Opérateur de croisement de deux murs*/
+  /*Opérateur de croisement de deux murs
+  m2 est toujours vertical*/
     
-  /*verifier si les deux murs sont egaux avec ==*/
+  /*verifier si les deux murs sont egaux avec == */
 
   if(*this == m2) return true;
 
@@ -147,6 +148,7 @@ Mur TableauDynamiqueMur::valeurIemeElement (unsigned int indice) const
 
 char* TableauDynamiqueMur::toString(unsigned int indice) const 
 {
+  assert(indice < taille_utilisee);
   Mur m = ad[indice];
   char* str = new char[100];
   sprintf_s(str, 100, "Mur %d : Tail : (%d,%d) Head : (%d,%d) Direction : %d\n", indice, m.Tail.x, m.Tail.y, m.Head.x, m.Head.y, m.dir);
